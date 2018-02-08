@@ -17,8 +17,7 @@ export class ChildAppcompComponent implements OnInit {
   rightbottom = "I am rightbottomer"
   onSelectionChange:any;
   checkResponsive:any;
-  selectedEntry:any;
-
+  error:any;
 
 
   
@@ -26,12 +25,12 @@ export class ChildAppcompComponent implements OnInit {
 
     this.onSelectionChange = function(data){
        this.firstservice.getDoc(data).subscribe(data=>{
-        this.righttopper=data._body;
-       })
+        this.righttopper=data["_source"]["itemText"];
+       });
   }
 
     this.checkResponsive = function(args,args2) {
-    console.log(args,args2)
+    console.log(args,args2);
   }
 
 
@@ -49,10 +48,9 @@ export class ChildAppcompComponent implements OnInit {
       },
 
       err => {
-        this.error = "something went wrong"
+        this.error = "something went wrong";
       });
 
      
 
-}
-
+}}

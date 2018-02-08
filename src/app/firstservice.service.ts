@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class FirstserviceService {
 
+  
   constructor(private http:Http) { }
   showTodayDate(){
   	let ndate = new Date();
@@ -13,14 +14,18 @@ export class FirstserviceService {
   }
 
   getData(){
-  	// return this.http.get('http://jsonplaceholder.typicode.com/users').
   	return this.http.get('http://localhost:5000').
-  	map((response) => response.json())
+  	map(response => response.json())
   }
 
+  // public getData<T>():Observable<T>{
+  //   return this.http.post<T>('http://localhost:5000')
+  // }
 
-  public getDoc<T>(id:data):Observable<T>{
-    return this.http.post<T>('http://localhost:5000/getdoc'{"id":id.id})
+
+  public getDoc(id){
+    return this.http.post('http://localhost:5000/getdoc',{"id":id.id})
+    .map(response => response.json())
   }
 
 }
