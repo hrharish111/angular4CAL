@@ -20,7 +20,7 @@ export class FirstserviceService {
 
 
   public getDoc<T>(id:data):Observable<T>{
-    return this.http.post<T>('http://localhost:5000/getdoc'{"id":id.id});
+    return this.http.post<T>('http://localhost:5000/getdoc'{"id":id.id})
   }
 
 }
