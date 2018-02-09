@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class FirstserviceService {
 
-  
+
   constructor(private http:Http) { }
   showTodayDate(){
   	let ndate = new Date();
@@ -25,6 +25,11 @@ export class FirstserviceService {
 
   public getDoc(id){
     return this.http.post('http://localhost:5000/getdoc',{"id":id.id})
+    .map(response => response.json())
+  }
+
+  public get_index_service(){
+    return this.http.get('http://localhost:5000/getdoc')
     .map(response => response.json())
   }
 

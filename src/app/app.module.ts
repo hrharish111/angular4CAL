@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DataTableModule } from 'angular-4-data-table/src/index';
-
-
+import { FormsModule } from '@angular/forms';
+import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 
@@ -13,22 +15,34 @@ import { AppComponent } from './app.component';
 import { ChildAppcompComponent } from './child-appcomp/child-appcomp.component';
 import { FirstserviceService } from './firstservice.service';
 import { ShadesComponent } from './shades/shades.component';
+import { CreateProjectComponent } from './create-project/create-project.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ChildAppcompComponent,
-    ShadesComponent
+    ShadesComponent,
+    CreateProjectComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    FormsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatMenuModule,
+    MatIconModule,
+    MatToolbarModule,
 
     RouterModule.forRoot([
     {
-    	path:'new-cmp',
+      path:'create-cmp',
+      component:CreateProjectComponent
+    },
+    {
+    	path:'training-cmp',
     	component:ChildAppcompComponent
     },{
       path:'shades-cmp',

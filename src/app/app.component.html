@@ -1,87 +1,20 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<!--<a routerLink = "create-cmp">Create project</a>-->
+<!--<a routerLink = "training-cmp">Trained Set</a>-->
+<!--<a routerLink = "shades-cmp">Controling Set</a>-->
+<!--<router-outlet></router-outlet>-->
 
 
-<!-- <app-layout-header></app-layout-header>
+<ul>
+  <li><a [routerLinkActive]="['active']" routerLink = "create-cmp">Create project</a></li>
+  <li><a [routerLinkActive]="['active']" routerLink = "training-cmp">Trained Set</a></li>
+  <li><a [routerLinkActive]="['active']" routerLink = "shades-cmp">Controling Set</a></li>
 
-<router-outlet></router-outlet>
+</ul>
 
-<app-layout-footer></app-layout-footer> -->
-
-
-<a routerLink = "new-cmp">Trained Set</a>
-<a routerLink = "shades-cmp">Controling Set</a>
-<router-outlet></router-outlet>
-<!-- <a routerLink = "new-cmp">New component</a>
-<router-outlet></router-outlet>
-{{todaydate}}
-
-
-<div class="container">
-
-  <div class="firstcolumn">
-    <div class="lefttopper">
-      <p>{{lefttopper}}</p>
-      <ng-template [ngIf]="selectedEntry">{{selectedEntry.id}}</ng-template>
-      
-      
+<div style="margin-left:25%;padding:1px 16px;height:1000px;">
+  <div class="container-fluid">
+    <div class="row">
+    <router-outlet></router-outlet>
     </div>
-
-
-    <div class="leftbottomer">
-    <p>{{leftbottom}}</p>
     </div>
-
-  </div>
-
-
-<div class = "secondcolumn">
-  <div class="centertab">
-   {{error}}
-
-   <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>seleced</th>
-            <th>Id</th>
-            <th>Tag</th>
-            <th>Score</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let data of httpdata">
-            <td> <input type="radio" name="radiogroup" [checked]="idx===0" [value]="data.id" (change)="onSelectionChange(data)"></td>
-            <td>{{data.id}}</td>
-            <td>{{data.tag}}</td>
-            <td>{{data.score}}</td>
-        </tr>
-    </tbody>
-</table> 
- -->
-
-  <!--   <tr *ngFor = "let data of httpdata">
-        <td> <input type="radio" name="radiogroup" [checked]="idx===0" [value]="data.id" (change)="onSelectionChange(data)">{{data.id}},{{data.tag}},{{data.score}}</td>
-      </tr> -->
-   
-    
- <!--  </div>
-
-
 </div>
-
-<div class="thirdcolumn">
-
-  <div class="righttopper">
-    <p>{{righttopper}}</p>
-    <ng-template [ngIf]="selectedEntry">{{selectedEntry.score}}</ng-template>
-
-  </div>
-
-
-  <div class="rightbottomer">
-    <p>{{rightbottom}}</p>
-  </div>
-
-</div>
-
-</div>
- -->

@@ -8,20 +8,20 @@ import { FirstserviceService } from '../firstservice.service';
   styleUrls: ['./child-appcomp.component.css']
 })
 export class ChildAppcompComponent implements OnInit {
-  
-  public httpdata:any;
-  public message:string;
-  leftbottom="I am leftbottom"
-  lefttopper = "I am lefttopper"
-  righttopper = "I am righttopper"
-  rightbottom = "I am rightbottomer"
-  onSelectionChange:any;
-  checkResponsive:any;
-  error:any;
+
+  public httpdata: any;
+  public message: string;
+  leftbottom="I am leftbottom";
+  lefttopper = "I am lefttopper";
+  righttopper = "I am righttopper";
+  rightbottom = "I am rightbottomer";
+  onSelectionChange: any;
+  checkResponsive: any;
+  error: any;
 
 
-  
-  constructor(private firstservice: FirstserviceService) { 
+
+  constructor(private firstservice: FirstserviceService) {
 
     this.onSelectionChange = function(data){
        this.firstservice.getDoc(data).subscribe(data=>{
@@ -37,7 +37,7 @@ export class ChildAppcompComponent implements OnInit {
 
   }
 
-  
+
   ngOnInit() {
      // this.firstservice.getDataCal<any[]>().subscribe((data:any[]) => this.httpdata = data,
      //  error =>() =>{
@@ -51,6 +51,6 @@ export class ChildAppcompComponent implements OnInit {
         this.error = "something went wrong";
       });
 
-     
+
 
 }}
