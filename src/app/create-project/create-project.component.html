@@ -1,15 +1,23 @@
 <h1>Create a Project</h1>
 <p>please select index name and cal index name</p>
-<h1>{{title}}</h1>
 
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div>
+<!--<div class="input-group mb-3">-->
+  <!--<div class="input-group-prepend">-->
+    <!--<span class="input-group-text" id="basic-addon3">Enter your Index name</span>-->
+  <!--</div>-->
+  <!--<input type="text" [(ngModel)]="filter_name" class="form-control" id="basic-url" aria-describedby="basic-addon3" spellcheck="false">-->
+<!--</div>-->
 
+<!--<div class="input-group mb-3">-->
+  <!--<ul [hidden]="!filter_name">-->
+  <!--<li class="form-control" (click)="selected_menu(item)" *ngFor="let item of list_index | searchFilter:filter_name">-->
+        <!--{{ item }}-->
+  <!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+
+<mat-form-field>
+  <mat-select placeholder="Index_name">
+    <mat-option (click)="selected_menu(Index_name)" *ngFor="let Index_name of list_index" [value]="Index_name">{{Index_name}}</mat-option>
+  </mat-select>
+</mat-form-field>

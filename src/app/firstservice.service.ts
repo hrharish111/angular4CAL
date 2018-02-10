@@ -21,7 +21,10 @@ export class FirstserviceService {
   // public getData<T>():Observable<T>{
   //   return this.http.post<T>('http://localhost:5000')
   // }
-
+  public get_index(){
+  	return this.http.get('http://localhost:5000/get_index').
+  	map(response => response.json())
+  }
 
   public getDoc(id){
     return this.http.post('http://localhost:5000/getdoc',{"id":id.id})
