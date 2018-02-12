@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import { FirstserviceService } from '../firstservice.service';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
+import { Router } from '@angular/router';
+import {FormdataDetails} from './form_data_details';
+
 
 @Component({
   selector: 'app-create-project',
@@ -13,18 +16,53 @@ import {map} from 'rxjs/operators/map';
 })
 export class CreateProjectComponent implements OnInit {
   list_index: any;
-  filter_name: any;
+  form_data = new FormdataDetails();
+  myControl_cal: FormControl = new FormControl('',[Validators.required]);
+  myControl_itter: FormControl = new FormControl('',[Validators.required]);
+  cal_index_list: any;
+
+  get_Cal_index =  function(args) {
+        console.log(args);
+        this.firstService.get_cal_index_service(args).subscribe(data => {this.cal_index_list = data; });
+      };
+
+
   selected_menu = function (sel_value) {
-    this.filter_name = sel_value;
+    this.form_data.index_name = sel_value;
+    this.get_Cal_index(sel_value);
+    console.log(this.cal_index_list);
     console.log('somethhing is working');
 
   }
 
-  constructor(private firstService: FirstserviceService) {
+
+
+
+  create_project = function () {
+    this.form_data.cal_index = this.myControl_cal.value;
+    localStorage.setItem('local_store_value', JSON.stringify(this.form_data));
+    const create_instance = JSON.parse(localStorage.getItem('local_store_value'));
+    this.firstService.create_cal_instance(this.create_instance).subscribe(results => {
+      console.log(results)
+      if (results['success'] === true) {
+            this.router.navigate(['/training-cmp']);
+       } else {
+        console.log('failed in creating project');
+      }
+    })
+    console.log(this.form_data);
+
+  }
+
+
+
+  constructor(private router: Router,
+              private firstService: FirstserviceService) {
   }
 
   ngOnInit() {
       this.firstService.get_index().subscribe(data => {this.list_index = data; });
+
   }
 
 

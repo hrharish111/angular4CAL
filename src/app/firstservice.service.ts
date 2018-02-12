@@ -13,7 +13,11 @@ export class FirstserviceService {
   	return ndate;
   }
 
-  getData(){
+
+
+
+
+   getData(){
   	return this.http.get('http://localhost:5000').
   	map(response => response.json())
   }
@@ -34,6 +38,15 @@ export class FirstserviceService {
   public get_index_service(){
     return this.http.get('http://localhost:5000/getdoc')
     .map(response => response.json())
+  }
+
+  public get_cal_index_service(cal_id) {
+    return this.http.post('http://localhost:5000/get_cal_server',{'cal_id': cal_id})
+    .map(response => response.json());
+  }
+
+  public create_cal_instance(args) {
+    return this.http.post('http://localhost:5000/create_cal_instance',{'cal_inputs': args});
   }
 
 }

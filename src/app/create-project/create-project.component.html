@@ -16,8 +16,49 @@
 <!--</ul>-->
 <!--</div>-->
 
-<mat-form-field>
-  <mat-select placeholder="Index_name">
-    <mat-option (click)="selected_menu(Index_name)" *ngFor="let Index_name of list_index" [value]="Index_name">{{Index_name}}</mat-option>
-  </mat-select>
-</mat-form-field>
+<form class="formwidth" (ngSubmit)="create_project()" #myForm="ngForm">
+  <table class="fullwidth" cellspacing="0">
+    <tr>
+      <td>
+        <mat-form-field>
+            <mat-select placeholder="Index_name">
+                <mat-option (click)="selected_menu(Index_name)"  *ngFor="let Index_name of list_index" [value]="Index_name">{{Index_name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+      </td>
+      <td>
+        <mat-form-field>
+            <input type="text" placeholder="cal Index" matInput [formControl]="myControl_cal" required name="cal index" [matAutocomplete]="auto">
+            <mat-error *ngIf="myControl_cal.invalid">please provide cal index name</mat-error>
+        </mat-form-field>
+
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of cal_index_list" [value]="option">
+              {{ option }}
+            </mat-option>
+        </mat-autocomplete>
+      </td>
+      <td>
+        <mat-input-container class="fullwidth">
+          <input matInput="number" placeholder="ittrations" id="ittrations" [formControl]="myControl_itter" required [(ngModel)]="form_data.itter" name="ittrations">
+          <mat-error *ngIf="myControl_itter.invalid">please provide itteration number</mat-error>
+        </mat-input-container>
+
+      </td>
+    </tr>
+  </table>
+  <p>
+    <button type="submit" mat-raised-button="">Submit</button>
+  </p>
+</form>
+
+
+
+<!--<mat-form-field>-->
+  <!--<mat-select placeholder="Index_name">-->
+    <!--<mat-option (click)="selected_menu(Index_name)" *ngFor="let Index_name of list_index" [value]="Index_name">{{Index_name}}</mat-option>-->
+  <!--</mat-select>-->
+<!--</mat-form-field>-->
+
+
