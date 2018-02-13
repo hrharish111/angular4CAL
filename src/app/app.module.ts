@@ -12,6 +12,8 @@ import {MatSelectModule} from '@angular/material';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material';
 import {MatInputModule} from '@angular/material';
+import {MatTableModule} from '@angular/material';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 import { AppComponent } from './app.component';
@@ -20,6 +22,7 @@ import { FirstserviceService } from './firstservice.service';
 import { ShadesComponent } from './shades/shades.component';
 import { CreateProjectComponent } from './create-project/create-project.component';
 import { SearchFilterPipe } from './search-filter.pipe';
+import { AddDocsComponent } from './add-docs/add-docs.component';
 
 
 @NgModule({
@@ -29,6 +32,7 @@ import { SearchFilterPipe } from './search-filter.pipe';
     ShadesComponent,
     CreateProjectComponent,
     SearchFilterPipe,
+    AddDocsComponent,
 
   ],
   imports: [
@@ -46,13 +50,18 @@ import { SearchFilterPipe } from './search-filter.pipe';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-
+    MatTableModule,
+    MatRadioModule,
 
 
     RouterModule.forRoot([
-    {
-      path:'create-cmp',
-      component:CreateProjectComponent
+      {
+        path: 'add-docs',
+        component: AddDocsComponent
+      },
+      {
+      path: 'create-cmp',
+      component: CreateProjectComponent
     },
     {
     	path:'training-cmp',

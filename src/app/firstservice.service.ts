@@ -31,13 +31,22 @@ export class FirstserviceService {
   }
 
   public getDoc(id){
-    return this.http.post('http://localhost:5000/getdoc',{"id":id.id})
-    .map(response => response.json())
+    console.log(id);
+    return this.http.post('http://localhost:5000/getdoc',{'id': id._id})
+    .map(response => response.json());
   }
 
-  public get_index_service(){
+  public add_training_service(index_details, selected_doc){
+    console.log(index_details, selected_doc);
+    return this.http.post('http://localhost:5000/add_training_service',{'index_details': index_details, 'selected_doc': selected_doc})
+    .map(response => response.json());
+  }
+
+
+
+  public get_index_service() {
     return this.http.get('http://localhost:5000/getdoc')
-    .map(response => response.json())
+    .map(response => response.json());
   }
 
   public get_cal_index_service(cal_id) {
@@ -46,7 +55,14 @@ export class FirstserviceService {
   }
 
   public create_cal_instance(args) {
-    return this.http.post('http://localhost:5000/create_cal_instance',{'cal_inputs': args});
+    console.log(args);
+    return this.http.post('http://localhost:5000/create_cal_instance',{'cal_inputs': args})
+      .map(response => response.json());
+  }
+
+  public get_serarched_data(args) {
+    return this.http.post('http://localhost:5000/get_search_word',{'search_text': args})
+      .map(response => response.json());
   }
 
 }

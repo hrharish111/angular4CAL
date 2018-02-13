@@ -1,0 +1,23 @@
+.button_try {background-color: green;
+    margin-top: 25px;
+    float: right;
+}
+
+.extra_form {
+    display: inline-block;
+    width: 37%;
+}
+
+.custom_table {
+    padding: 8px;
+    width: 249%;
+}
+
+.textbox_display{
+  width: 60%;
+  float: right;
+  overflow: auto;
+  background-color: white;
+  margin: 0px;
+  padding: 25px;
+}

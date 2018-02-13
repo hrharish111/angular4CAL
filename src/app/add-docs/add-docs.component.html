@@ -1,0 +1,88 @@
+<div class="container">
+<form class="formwidth" (ngSubmit)="search_words()" #myForm="ngForm">
+
+       <mat-form-field>
+            <input type="text" placeholder="search word" matInput [formControl]="myControl_search" required name="cal index">
+            <mat-error *ngIf="myControl_search.invalid">please enter the word to search</mat-error>
+        </mat-form-field>
+
+ <button type="submit" mat-raised-button="">Submit</button>
+</form>
+
+
+<!--<div class = "secondcolumn">-->
+  <!--<div class="centertab">-->
+
+   <!--<table class="table table-striped">-->
+    <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>Selected Document</th>-->
+            <!--<th>Responsive</th>-->
+            <!--<th>Id</th>-->
+            <!--<th>Tag</th>-->
+        <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+        <!--<tr *ngFor="let data of get_related_docs">-->
+            <!--<td> <input type="radio" name="radiogroup" (change)="onSelectionChange(data)"></td>-->
+            <!--<td><input type="checkbox" [checked]="data.responsive" (change)= "checkResponsive(data.responsive=!data.responsive,data)"  /></td>-->
+            <!--<td>{{data._id}}</td>-->
+            <!--<td>{{data['_source'].tag}}</td>-->
+        <!--</tr>-->
+    <!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+
+
+<!--</div>-->
+
+
+
+<form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_training_doc()" #docForm="ngForm">
+
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource">
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="responsive">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="Doc_view">
+      <mat-header-cell *matHeaderCellDef> Doc view </mat-header-cell>
+      <mat-cell *matCellDef="let element"><mat-radio-button (click)="onSelectionChange(element)"></mat-radio-button> </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Doc_Id">
+      <mat-header-cell *matHeaderCellDef> Doc Id </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._id}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"
+             (click)="selection.toggle(row)">
+    </mat-row>
+  </mat-table>
+</div>
+  <div>
+        <button mat-button class='button_try' >training me</button>
+  </div>
+</form>
+
+
+
+<div [hidden] ="!righttopper"class="textbox_display">{{righttopper}}</div>
+</div>

@@ -6,15 +6,14 @@
 
 <ul>
   <li><a [routerLinkActive]="['active']" routerLink = "create-cmp">Create project</a></li>
+  <li><a [routerLinkActive]="['active']" routerLink = "add-docs">Add Documents</a></li>
   <li><a [routerLinkActive]="['active']" routerLink = "training-cmp">Trained Set</a></li>
   <li><a [routerLinkActive]="['active']" routerLink = "shades-cmp">Controling Set</a></li>
 
 </ul>
 
 <div style="margin-left:25%;padding:1px 16px;height:1000px;">
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container">
     <router-outlet></router-outlet>
-    </div>
     </div>
 </div>

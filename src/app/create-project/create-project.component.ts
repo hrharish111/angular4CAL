@@ -41,15 +41,14 @@ export class CreateProjectComponent implements OnInit {
   create_project = function () {
     this.form_data.cal_index = this.myControl_cal.value;
     localStorage.setItem('local_store_value', JSON.stringify(this.form_data));
-    const create_instance = JSON.parse(localStorage.getItem('local_store_value'));
-    this.firstService.create_cal_instance(this.create_instance).subscribe(results => {
+    this.firstService.create_cal_instance(this.form_data).subscribe(results => {
       console.log(results)
       if (results['success'] === true) {
             this.router.navigate(['/training-cmp']);
        } else {
         console.log('failed in creating project');
       }
-    })
+    });
     console.log(this.form_data);
 
   }

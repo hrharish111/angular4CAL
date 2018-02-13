@@ -23,14 +23,14 @@ export class ChildAppcompComponent implements OnInit {
 
   constructor(private firstservice: FirstserviceService) {
 
-    this.onSelectionChange = function(data){
-       this.firstservice.getDoc(data).subscribe(data=>{
-        this.righttopper=data["_source"]["itemText"];
+    this.onSelectionChange = function(data) {
+       this.firstservice.getDoc(data).subscribe(data  => {
+        this.righttopper = data['_source']['itemText'];
        });
   }
 
-    this.checkResponsive = function(args,args2) {
-    console.log(args,args2);
+    this.checkResponsive = function(args, args2) {
+    console.log(args, args2);
   }
 
 
@@ -43,8 +43,8 @@ export class ChildAppcompComponent implements OnInit {
      //  error =>() =>{
      //    this.message = "something went wrong";
      //  })
-     this.firstservice.getData().subscribe(data =>{
-        this.httpdata=data;
+     this.firstservice.getData().subscribe(data => {
+        this.httpdata = data;
       },
 
       err => {
