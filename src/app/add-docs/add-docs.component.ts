@@ -57,7 +57,7 @@ export class AddDocsComponent implements OnInit {
   add_training_doc = function () {
 
     const selected_doc = this.selection.selected;
-    const index_details = localStorage.getItem('local_store_value')
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'))
     console.log('form is completely working fine');
     this.firstservice.add_training_service(index_details, selected_doc).subscribe(results  => {
       console.log(results);
