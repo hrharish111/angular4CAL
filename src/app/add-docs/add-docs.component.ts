@@ -4,6 +4,7 @@ import {SearchFormdata} from './search_form_data';
 import {FirstserviceService} from '../firstservice.service';
 import {MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-docs',
@@ -60,8 +61,10 @@ export class AddDocsComponent implements OnInit {
     const index_details = JSON.parse(localStorage.getItem('local_store_value'))
     console.log('form is completely working fine');
     this.firstservice.add_training_service(index_details, selected_doc).subscribe(results  => {
-      console.log(results);
       this.success_result = results;
+      if (results) {
+        console.log('add_doc_completed');
+      }
        });
   };
 
@@ -88,7 +91,7 @@ export class AddDocsComponent implements OnInit {
 
   }
 
-  constructor(private firstservice: FirstserviceService) { }
+  constructor(private router: Router, private firstservice: FirstserviceService) { }
 
   ngOnInit() {
   }

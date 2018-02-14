@@ -18,7 +18,8 @@ export class ChildAppcompComponent implements OnInit {
   onSelectionChange: any;
   checkResponsive: any;
   error: any;
-
+  displayedColumns = ['doc_id', 'score', 'tag'];
+  dataSource: any;
 
 
   constructor(private firstservice: FirstserviceService) {
@@ -45,10 +46,12 @@ export class ChildAppcompComponent implements OnInit {
      //  })
      this.firstservice.getData().subscribe(data => {
         this.httpdata = data;
+        this.dataSource = this.httpdata;
+
       },
 
       err => {
-        this.error = "something went wrong";
+        this.error = 'something went wrong';
       });
 
 

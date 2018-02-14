@@ -1,65 +1,120 @@
-<div class="container">
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource">
 
-  <div class="firstcolumn">
-    <div class="lefttopper">
-      <p>{{lefttopper}}</p>
-      <ng-template [ngIf]="selectedEntry">{{selectedEntry.id}}</ng-template>
-      
-      
-    </div>
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="doc_id">
+      <mat-header-cell *matHeaderCellDef> Document ID </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="score">
+      <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.score}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="tag">
+      <mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.tag}} </mat-cell>
+    </ng-container>
 
 
-    <div class="leftbottomer">
-    <p>{{leftbottom}}</p>
-    </div>
 
-  </div>
-
-
-<div class = "secondcolumn">
-  <div class="centertab">
-   {{error}}
-
-   <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>seleced</th>
-            <th>responsive</th>
-            <th>Id</th>
-            <th>Tag</th>
-            <th>Score</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let data of httpdata">
-            <td> <input type="radio" name="radiogroup" (change)="onSelectionChange(data)"></td>
-            <td><input type="checkbox" [checked]="data.responsive" (change)= "checkResponsive(data.responsive=!data.responsive,data)"  /></td>
-
-            
-            <td>{{data.id}}</td>
-            <td>{{data.tag}}</td>
-            <td>{{data.score}}</td>
-        </tr>
-    </tbody>
-</table> 
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </div>
 
 
-</div>
-
-<div class="thirdcolumn">
-
-  <div class="righttopper">
-    <p>{{righttopper}}</p>
-    <ng-template [ngIf]="selectedEntry">{{selectedEntry.score}}</ng-template>
-
-  </div>
 
 
-  <div class="rightbottomer">
-    <p>{{rightbottom}}</p>
-  </div>
 
-</div>
 
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="container">-->
+
+  <!--<div class="firstcolumn">-->
+    <!--<div class="lefttopper">-->
+      <!--<p>{{lefttopper}}</p>-->
+      <!--<ng-template [ngIf]="selectedEntry">{{selectedEntry.id}}</ng-template>-->
+      <!---->
+      <!---->
+    <!--</div>-->
+
+
+    <!--<div class="leftbottomer">-->
+    <!--<p>{{leftbottom}}</p>-->
+    <!--</div>-->
+
+  <!--</div>-->
+
+
+<!--<div class = "secondcolumn">-->
+  <!--<div class="centertab">-->
+   <!--{{error}}-->
+
+   <!--<table class="table table-striped">-->
+    <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>seleced</th>-->
+            <!--<th>responsive</th>-->
+            <!--<th>Id</th>-->
+            <!--<th>Tag</th>-->
+            <!--<th>Score</th>-->
+        <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+        <!--<tr *ngFor="let data of httpdata">-->
+            <!--<td> <input type="radio" name="radiogroup" (change)="onSelectionChange(data)"></td>-->
+            <!--<td><input type="checkbox" [checked]="data.responsive" (change)= "checkResponsive(data.responsive=!data.responsive,data)"  /></td>-->
+
+            <!---->
+            <!--<td>{{data.id}}</td>-->
+            <!--<td>{{data.tag}}</td>-->
+            <!--<td>{{data.score}}</td>-->
+        <!--</tr>-->
+    <!--</tbody>-->
+<!--</table> -->
+<!--</div>-->
+
+
+<!--</div>-->
+
+<!--<div class="thirdcolumn">-->
+
+  <!--<div class="righttopper">-->
+    <!--<p>{{righttopper}}</p>-->
+    <!--<ng-template [ngIf]="selectedEntry">{{selectedEntry.score}}</ng-template>-->
+
+  <!--</div>-->
+
+
+  <!--<div class="rightbottomer">-->
+    <!--<p>{{rightbottom}}</p>-->
+  <!--</div>-->
+
+<!--</div>-->
+
+<!--</div>-->

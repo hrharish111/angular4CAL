@@ -18,7 +18,8 @@ export class FirstserviceService {
 
 
    getData(){
-  	return this.http.get('http://localhost:5000').
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+  	return this.http.post('http://localhost:5000/generate_training_score',{'index_details': index_details}).
   	map(response => response.json())
   }
 
