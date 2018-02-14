@@ -14,14 +14,18 @@ export class AddDocsComponent implements OnInit {
 
   righttopper: any;
 
+
   search_form = new SearchFormdata()
 
   myControl_search: FormControl = new FormControl('', [ Validators.required]);
   get_related_docs: any;
 
-  displayedColumns: any;
+  table_form: any[] = [];
   dataSource: any;
-  selection = new SelectionModel<Element>(true, []);
+   displayedColumns: any;
+   selection = new SelectionModel<Element>(true, []);
+
+
 
 
   search_words = function () {
@@ -29,9 +33,8 @@ export class AddDocsComponent implements OnInit {
     this.search_form.index_name = JSON.parse(localStorage.getItem('local_store_value')).index_name
     this.firstservice.get_serarched_data(this.search_form).subscribe((results: any) => {
       this.get_related_docs = results.hits.hits;
-      this.displayedColumns = ['responsive', 'Doc_view', 'Doc_Id']
-      this.dataSource = new MatTableDataSource<Element>(results.hits.hits);
-
+      this.dataSource = new MatTableDataSource(this.get_related_docs);
+      this.displayedColumns = ['doc_viewed', 'res_or_no' , 'Doc_Id'];
     });
   };
 
@@ -40,16 +43,19 @@ export class AddDocsComponent implements OnInit {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
+
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle = function() {
+  masterToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
         this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
+
+
   add_training_doc = function () {
+
     const selected_doc = this.selection.selected;
     const index_details = localStorage.getItem('local_store_value')
     console.log('form is completely working fine');
@@ -73,9 +79,14 @@ export class AddDocsComponent implements OnInit {
        // });
   }
 
-  // checkResponsive = function(args, args2) {
-  //   console.log(args, args2);
-  // }
+  checkResponsive = function(args, args2) {
+    this.selection.selected.forEach(function (entry) {
+      if (entry._id === args._id) {
+          entry._source.responsive = args2;
+      }
+    });
+
+  }
 
   constructor(private firstservice: FirstserviceService) { }
 

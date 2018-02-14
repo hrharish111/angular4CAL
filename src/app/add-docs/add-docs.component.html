@@ -36,15 +36,10 @@
 
 <!--</div>-->
 
-
-
-<form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_training_doc()" #docForm="ngForm">
-
-<div class="example-container mat-elevation-z8">
+  <form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_training_doc()" #docForm="ngForm">
   <mat-table #table [dataSource]="dataSource">
 
-    <!-- Checkbox Column -->
-    <ng-container matColumnDef="responsive">
+     <ng-container matColumnDef="doc_viewed">
       <mat-header-cell *matHeaderCellDef>
         <mat-checkbox (change)="$event ? masterToggle() : null"
                       [checked]="selection.hasValue() && isAllSelected()"
@@ -59,30 +54,105 @@
       </mat-cell>
     </ng-container>
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="Doc_view">
-      <mat-header-cell *matHeaderCellDef> Doc view </mat-header-cell>
-      <mat-cell *matCellDef="let element"><mat-radio-button (click)="onSelectionChange(element)"></mat-radio-button> </mat-cell>
+
+
+
+
+
+
+
+     <ng-container matColumnDef="res_or_no" >
+        <mat-header-cell *matHeaderCellDef> Res or Not </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+      <mat-radio-group [disabled]= "!selection.isSelected(row)">
+        <mat-radio-button [value]="true"  (click)="checkResponsive(row,true)">Responsive</mat-radio-button>
+        <mat-radio-button [value]="false" (click)="checkResponsive(row,false)">Non-responsive</mat-radio-button>
+      </mat-radio-group>
+      </mat-cell>
     </ng-container>
 
-    <!-- Name Column -->
+
+     <!-- Name Column -->
     <ng-container matColumnDef="Doc_Id">
       <mat-header-cell *matHeaderCellDef> Doc Id </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element._id}} </mat-cell>
     </ng-container>
 
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"
-             (click)="selection.toggle(row)">
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectionChange(row)">
     </mat-row>
+
+
   </mat-table>
-</div>
-  <div>
-        <button mat-button class='button_try' >training me</button>
-  </div>
-</form>
+      <button mat-button class='button_try' >training me</button>
+
+  </form>
+
+  <div [hidden] ="!righttopper"class="textbox_display">{{righttopper}}</div>
 
 
 
-<div [hidden] ="!righttopper"class="textbox_display">{{righttopper}}</div>
-</div>
+<!--<form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_training_doc()" #docForm="ngForm">-->
+
+<!--<div class="example-container mat-elevation-z8">-->
+  <!--<mat-table #table [dataSource]="dataSource">-->
+
+    <!--&lt;!&ndash; Checkbox Column &ndash;&gt;-->
+    <!--<ng-container matColumnDef="all_select">-->
+
+      <!--<mat-header-cell *matHeaderCellDef>-->
+        <!--<mat-checkbox (change)="$event ? masterToggle() : null"-->
+                      <!--[checked]="selection.hasValue() && isAllSelected()"-->
+                      <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
+        <!--</mat-checkbox>-->
+      <!--</mat-header-cell>-->
+
+      <!--<mat-cell *matCellDef="let row">-->
+        <!--<mat-checkbox (click)="$event.stopPropagation()"-->
+                      <!--(change)="$event ? selection.toggle(row) : null"-->
+                      <!--[checked]="selection.isSelected(row)">-->
+        <!--</mat-checkbox>-->
+      <!--</mat-cell>-->
+    <!--</ng-container>-->
+
+    <!--&lt;!&ndash; Position Column &ndash;&gt;-->
+    <!--<ng-container matColumnDef="Doc_view">-->
+      <!--<mat-header-cell *matHeaderCellDef> Doc view </mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let element"><mat-radio-button (click)="onSelectionChange(element)"></mat-radio-button> </mat-cell>-->
+    <!--</ng-container>-->
+
+    <!--&lt;!&ndash;<ng-container matColumnDef="res_or_non">&ndash;&gt;-->
+      <!--&lt;!&ndash;<mat-header-cell *matHeaderCellDef> Res or Not </mat-header-cell>&ndash;&gt;-->
+      <!--&lt;!&ndash;<mat-cell *matCellDef="let element">&ndash;&gt;-->
+        <!--&lt;!&ndash;<mat-radio-group  [ngModel]="element.responsive" n >&ndash;&gt;-->
+            <!--&lt;!&ndash;<mat-radio-button  [value] = "true">Responsive</mat-radio-button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<mat-radio-button  [value] = "false">Non Responsive</mat-radio-button>&ndash;&gt;-->
+        <!--&lt;!&ndash;</mat-radio-group>&ndash;&gt;-->
+        <!--&lt;!&ndash;{{element.responsive}}&ndash;&gt;-->
+      <!--&lt;!&ndash;</mat-cell>&ndash;&gt;-->
+    <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+
+
+    <!--&lt;!&ndash; Name Column &ndash;&gt;-->
+    <!--<ng-container matColumnDef="Doc_Id">-->
+      <!--<mat-header-cell *matHeaderCellDef> Doc Id </mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let element"> {{element._id}} </mat-cell>-->
+    <!--</ng-container>-->
+
+    <!--<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>-->
+    <!--<mat-row *matRowDef="let row; columns: displayedColumns;"-->
+             <!--(click)="selection.toggle(row)">-->
+    <!--</mat-row>-->
+  <!--</mat-table>-->
+<!--</div>-->
+  <!--<div>-->
+        <!--<button mat-button class='button_try' >training me</button>-->
+  <!--</div>-->
+<!--</form>-->
+
+
+
+<!--<div [hidden] ="!righttopper"class="textbox_display">{{righttopper}}</div>-->
+<!--</div>-->
+
