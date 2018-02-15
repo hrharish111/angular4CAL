@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirstserviceService } from '../firstservice.service';
+import {MatTableDataSource} from '@angular/material';
+import {SelectionModel} from '@angular/cdk/collections';
 
 
 @Component({
@@ -11,43 +13,87 @@ export class ChildAppcompComponent implements OnInit {
 
   public httpdata: any;
   public message: string;
-  leftbottom="I am leftbottom";
-  lefttopper = "I am lefttopper";
-  righttopper = "I am righttopper";
-  rightbottom = "I am rightbottomer";
-  onSelectionChange: any;
-  checkResponsive: any;
+  righttopper: any;
   error: any;
-  displayedColumns = ['doc_id', 'score', 'tag'];
+
+  selection = new SelectionModel<Element>(true, []);
+  displayedColumns = ['doc_viewed', 'res_or_no' , 'doc_id', 'score', 'tag'];
   dataSource: any;
 
 
-  constructor(private firstservice: FirstserviceService) {
 
-    this.onSelectionChange = function(data) {
-       this.firstservice.getDoc(data).subscribe(data  => {
-        this.righttopper = data['_source']['itemText'];
+    id = 'chart1';
+    width = 400;
+    height = 380;
+    type = 'column2d';
+    dataFormat = 'json';
+    chartdata;
+    title = 'Angular4 FusionCharts Sample';
+
+
+
+  add_updated_doc = function () {
+    const selected_doc = this.selection.selected;
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'))
+    console.log('form is completely working fine');
+    this.firstservice.add_updated_service(index_details, selected_doc).subscribe(results  => {
+      this.success_result = results;
+      if (results) {
+        console.log('page get reloaded to generate score');
+        location.reload();
+      }
        });
   }
 
-    this.checkResponsive = function(args, args2) {
-    console.log(args, args2);
+  onSelectionChange = function(data) {
+    this.firstservice.getDoc(data).subscribe(results  => {
+        this.righttopper = results['_source']['itemText'];
+       });
+  };
+
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
 
+  checkResponsive = function(args, args2) {
+    this.selection.selected.forEach(function (entry) {
+      console.log(entry);
+      if (entry._id === args._id) {
+          entry.responsive = args2;
+      }
+    });
 
   }
 
+  constructor(private firstservice: FirstserviceService) {
 
-  ngOnInit() {
-     // this.firstservice.getDataCal<any[]>().subscribe((data:any[]) => this.httpdata = data,
-     //  error =>() =>{
-     //    this.message = "something went wrong";
-     //  })
-     this.firstservice.getData().subscribe(data => {
+
+
+    this.firstservice.getData().subscribe(data => {
         this.httpdata = data;
-        this.dataSource = this.httpdata;
-
+        const doc_id_score = [];
+        this.httpdata.forEach(function (eachdata) {
+          const object_key = String(eachdata.id);
+          const object_value = eachdata.score;
+          doc_id_score.push({label: object_key, value: object_value });
+        });
+        console.log(doc_id_score)
+        this.chartdata = {'chart': {'caption' : 'word score graph', 'theme' : 'fint'
+                                      },
+                            'data': doc_id_score};
+        this.dataSource = new MatTableDataSource(this.httpdata);
       },
 
       err => {
@@ -55,5 +101,14 @@ export class ChildAppcompComponent implements OnInit {
       });
 
 
+
+
+
+
+
+  }
+
+
+  ngOnInit() {
 
 }}

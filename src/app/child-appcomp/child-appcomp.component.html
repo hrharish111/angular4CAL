@@ -1,120 +1,74 @@
-<div class="example-container mat-elevation-z8">
+<div class="container">
+
+
+  <form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_updated_doc()" #docForm="ngForm">
   <mat-table #table [dataSource]="dataSource">
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
+     <ng-container matColumnDef="doc_viewed">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
 
-    <!-- Position Column -->
+     <ng-container matColumnDef="res_or_no" >
+        <mat-header-cell *matHeaderCellDef> Res or Not </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+      <mat-radio-group [disabled]= "!selection.isSelected(row)">
+        <mat-radio-button [value]="true"  (click)="checkResponsive(row,true)">Responsive</mat-radio-button>
+        <mat-radio-button [value]="false" (click)="checkResponsive(row,false)">Non-responsive</mat-radio-button>
+      </mat-radio-group>
+      </mat-cell>
+    </ng-container>
+
+
+     <!-- Name Column -->
     <ng-container matColumnDef="doc_id">
-      <mat-header-cell *matHeaderCellDef> Document ID </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Doc Id </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
     </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="score">
+     <ng-container matColumnDef="score">
       <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.score}} </mat-cell>
     </ng-container>
 
-    <!-- Weight Column -->
+
     <ng-container matColumnDef="tag">
       <mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.tag}} </mat-cell>
     </ng-container>
 
-
-
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectionChange(row)">
+    </mat-row>
+
+
   </mat-table>
+      <button mat-button class='button_try' >update me</button>
+
+  </form>
+
+  <div class="textbox_display">
+    <div [hidden] ="!righttopper" class="border border-primary doc_display">{{righttopper}}</div>
+     <div [hidden] ="!chartdata" class="border border-primary chart_display">
+       <fusioncharts
+    [id]="id"
+    [width]="width"
+    [height]="height"
+    [type]="type"
+    [dataFormat]="dataFormat"
+    [dataSource]="chartdata"
+></fusioncharts>
+
+  </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<div class="container">-->
-
-  <!--<div class="firstcolumn">-->
-    <!--<div class="lefttopper">-->
-      <!--<p>{{lefttopper}}</p>-->
-      <!--<ng-template [ngIf]="selectedEntry">{{selectedEntry.id}}</ng-template>-->
-      <!---->
-      <!---->
-    <!--</div>-->
-
-
-    <!--<div class="leftbottomer">-->
-    <!--<p>{{leftbottom}}</p>-->
-    <!--</div>-->
-
-  <!--</div>-->
-
-
-<!--<div class = "secondcolumn">-->
-  <!--<div class="centertab">-->
-   <!--{{error}}-->
-
-   <!--<table class="table table-striped">-->
-    <!--<thead>-->
-        <!--<tr>-->
-            <!--<th>seleced</th>-->
-            <!--<th>responsive</th>-->
-            <!--<th>Id</th>-->
-            <!--<th>Tag</th>-->
-            <!--<th>Score</th>-->
-        <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-        <!--<tr *ngFor="let data of httpdata">-->
-            <!--<td> <input type="radio" name="radiogroup" (change)="onSelectionChange(data)"></td>-->
-            <!--<td><input type="checkbox" [checked]="data.responsive" (change)= "checkResponsive(data.responsive=!data.responsive,data)"  /></td>-->
-
-            <!---->
-            <!--<td>{{data.id}}</td>-->
-            <!--<td>{{data.tag}}</td>-->
-            <!--<td>{{data.score}}</td>-->
-        <!--</tr>-->
-    <!--</tbody>-->
-<!--</table> -->
-<!--</div>-->
-
-
-<!--</div>-->
-
-<!--<div class="thirdcolumn">-->
-
-  <!--<div class="righttopper">-->
-    <!--<p>{{righttopper}}</p>-->
-    <!--<ng-template [ngIf]="selectedEntry">{{selectedEntry.score}}</ng-template>-->
-
-  <!--</div>-->
-
-
-  <!--<div class="rightbottomer">-->
-    <!--<p>{{rightbottom}}</p>-->
-  <!--</div>-->
-
-<!--</div>-->
-
-<!--</div>-->
+</div>

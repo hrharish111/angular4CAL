@@ -31,9 +31,8 @@ export class FirstserviceService {
   	map(response => response.json())
   }
 
-  public getDoc(id){
-    console.log(id);
-    return this.http.post('http://localhost:5000/getdoc',{'id': id._id})
+  public getDoc(doc){
+    return this.http.post('http://localhost:5000/getdoc',{'id': doc.id})
     .map(response => response.json());
   }
 
@@ -66,4 +65,8 @@ export class FirstserviceService {
       .map(response => response.json());
   }
 
+  public add_updated_service(index_details, selected_doc){
+    return this.http.post('http://localhost:5000/add_updated_service',{'index_details': index_details, 'selected_doc': selected_doc})
+    .map(response => response.json());
+    }
 }

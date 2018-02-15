@@ -15,6 +15,10 @@ import {MatInputModule} from '@angular/material';
 import {MatTableModule} from '@angular/material';
 import {MatRadioModule} from '@angular/material/radio';
 
+import * as FusionCharts from 'fusioncharts';
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
+import { FusionChartsModule } from 'angular4-fusioncharts';
 
 import { AppComponent } from './app.component';
 import { ChildAppcompComponent } from './child-appcomp/child-appcomp.component';
@@ -24,6 +28,8 @@ import { CreateProjectComponent } from './create-project/create-project.componen
 import { SearchFilterPipe } from './search-filter.pipe';
 import { AddDocsComponent } from './add-docs/add-docs.component';
 
+
+FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
 
 @NgModule({
   declarations: [
@@ -52,6 +58,7 @@ import { AddDocsComponent } from './add-docs/add-docs.component';
     MatSelectModule,
     MatTableModule,
     MatRadioModule,
+    FusionChartsModule,
 
 
     RouterModule.forRoot([
