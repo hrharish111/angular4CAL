@@ -44,7 +44,7 @@ export class CreateProjectComponent implements OnInit {
     this.firstService.create_cal_instance(this.form_data).subscribe(results => {
       console.log(results)
       if (results['success'] === true) {
-            this.router.navigate(['/training-cmp']);
+            this.router.navigate(['/add-docs']);
        } else {
         console.log('failed in creating project');
       }

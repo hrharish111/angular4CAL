@@ -35,6 +35,16 @@
 
 
 <!--</div>-->
+  <!--<p>{{success_result && success_result == 'error_in_form'}}</p>-->
+  <!--<div [hidden]="success_result && success_result == 'error_in_form'" class="alert alert-success alert-dismissable">-->
+    <!--<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>-->
+    <!--<strong>Success!</strong>-->
+  <!--</div>-->
+
+  <div [hidden] ="success_result != 'error_in_form'" class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Failed To add your training</strong>
+  </div>
 
   <form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_training_doc()" #docForm="ngForm">
   <mat-table #table [dataSource]="dataSource">
@@ -85,7 +95,7 @@
 
 
   </mat-table>
-      <button mat-button class='button_try' >training me</button>
+      <button mat-button class='button_try' >Add Documents</button>
 
   </form>
 

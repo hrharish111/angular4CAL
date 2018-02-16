@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 export class AddDocsComponent implements OnInit {
 
   righttopper: any;
+  success_result: any;
+  add_doc_failed: any;
 
 
   search_form = new SearchFormdata()
@@ -64,8 +66,11 @@ export class AddDocsComponent implements OnInit {
       this.success_result = results;
       if (results) {
         console.log('add_doc_completed');
+        location.reload();
       }
-       });
+       }, err => {
+          this.success_result = 'error_in_form';
+    });
   };
 
 

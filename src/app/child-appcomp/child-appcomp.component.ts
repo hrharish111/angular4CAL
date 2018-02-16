@@ -34,9 +34,7 @@ export class ChildAppcompComponent implements OnInit {
 
   add_updated_doc = function () {
     const selected_doc = this.selection.selected;
-    const index_details = JSON.parse(localStorage.getItem('local_store_value'))
-    console.log('form is completely working fine');
-    this.firstservice.add_updated_service(index_details, selected_doc).subscribe(results  => {
+    this.firstservice.add_updated_service(selected_doc).subscribe(results  => {
       this.success_result = results;
       if (results) {
         console.log('page get reloaded to generate score');
