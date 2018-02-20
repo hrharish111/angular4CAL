@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {SearchFormdata} from './search_form_data';
 import {FirstserviceService} from '../firstservice.service';
-import {MatTableDataSource} from '@angular/material';
+import {MatPaginator , MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 
@@ -25,8 +25,12 @@ export class AddDocsComponent implements OnInit {
 
   table_form: any[] = [];
   dataSource: any;
-   displayedColumns: any;
-   selection = new SelectionModel<Element>(true, []);
+  displayedColumns: any;
+  selection = new SelectionModel<Element>(true, []);
+
+   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+
 
 
 
@@ -38,6 +42,7 @@ export class AddDocsComponent implements OnInit {
       this.get_related_docs = results.hits.hits;
       this.dataSource = new MatTableDataSource(this.get_related_docs);
       this.displayedColumns = ['doc_viewed', 'res_or_no' , 'Doc_Id'];
+      this.dataSource.paginator = this.paginator;
     });
   };
 
@@ -74,6 +79,18 @@ export class AddDocsComponent implements OnInit {
   };
 
 
+   predict_score = function() {
+     console.log('clicked predict score');
+     this.firstservice.get_training_Data().subscribe(results => {
+       this.predict_result = results;
+       if (results) {
+         location.reload();
+       }
+     }, err => {
+       this.predict_result = 'error in predict score';
+     });
+   }
+
 
 
 
@@ -96,9 +113,17 @@ export class AddDocsComponent implements OnInit {
 
   }
 
+
+   applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
   constructor(private router: Router, private firstservice: FirstserviceService) { }
 
   ngOnInit() {
-  }
+}
+
 
 }

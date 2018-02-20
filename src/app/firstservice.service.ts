@@ -18,7 +18,7 @@ export class FirstserviceService {
 
 
 
-   getData(): Observable<any> {
+   get_training_Data(): Observable<any> {
     const index_details = JSON.parse(localStorage.getItem('local_store_value'));
     return this.http.post(environment.apiEndpoint + 'generate_training_score',{'index_details': index_details}).
     map(response => response.json());
@@ -69,5 +69,12 @@ export class FirstserviceService {
     const index_details = JSON.parse(localStorage.getItem('local_store_value'));
     return this.http.post(environment.apiEndpoint + 'add_updated_service',{'index_details': index_details, 'selected_doc': selected_doc})
     .map(response => response.json());
+    }
+
+    public get_training_score(): Observable<any> {
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+     return this.http.post(environment.apiEndpoint + 'get_training_score',{'index_details': index_details})
+    .map(response => response.json());
+
     }
 }

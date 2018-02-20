@@ -35,19 +35,27 @@
 
 
 <!--</div>-->
-  <!--<p>{{success_result && success_result == 'error_in_form'}}</p>-->
-  <!--<div [hidden]="success_result && success_result == 'error_in_form'" class="alert alert-success alert-dismissable">-->
-    <!--<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>-->
-    <!--<strong>Success!</strong>-->
-  <!--</div>-->
+  <div [hidden]="success_result && success_result == 'error_in_form'" class="alert alert-success alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Success!</strong>
+  </div>
 
   <div [hidden] ="success_result != 'error_in_form'" class="alert alert-danger alert-dismissable">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
     <strong>Failed To add your training</strong>
   </div>
 
+
+
   <form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_training_doc()" #docForm="ngForm">
-  <mat-table #table [dataSource]="dataSource">
+    <div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+
+    <mat-table #table [dataSource]="dataSource">
 
      <ng-container matColumnDef="doc_viewed">
       <mat-header-cell *matHeaderCellDef>
@@ -95,13 +103,25 @@
 
 
   </mat-table>
+       <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+
+
+
       <button mat-button class='button_try' >Add Documents</button>
 
   </form>
 
+
+
   <div [hidden] ="!righttopper"class="textbox_display">{{righttopper}}</div>
 
 </div>
+
+ <button mat-button class='predict_try' (click)="predict_score()">Predict Score</button>
 
 
 

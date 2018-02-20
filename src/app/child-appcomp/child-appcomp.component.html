@@ -2,7 +2,14 @@
 
 
   <form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_updated_doc()" #docForm="ngForm">
-  <mat-table #table [dataSource]="dataSource">
+    <div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+    </div>
+
+
+    <mat-table #table [dataSource]="dataSource">
 
      <ng-container matColumnDef="doc_viewed">
       <mat-header-cell *matHeaderCellDef>
@@ -42,10 +49,10 @@
     </ng-container>
 
 
-    <ng-container matColumnDef="tag">
-      <mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.tag}} </mat-cell>
-    </ng-container>
+    <!--<ng-container matColumnDef="tag">-->
+      <!--<mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let element"> {{element.tag}} </mat-cell>-->
+    <!--</ng-container>-->
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectionChange(row)">
@@ -53,6 +60,11 @@
 
 
   </mat-table>
+      <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
       <button mat-button class='button_try' >update me</button>
 
   </form>
@@ -70,5 +82,8 @@
 ></fusioncharts>
 
   </div>
+
 </div>
 </div>
+
+ <button mat-button class='predict_try' (click)="predict_score()">Predict Score</button>

@@ -14,6 +14,7 @@ import {MatFormFieldModule} from '@angular/material';
 import {MatInputModule} from '@angular/material';
 import {MatTableModule} from '@angular/material';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
@@ -58,6 +59,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
     MatSelectModule,
     MatTableModule,
     MatRadioModule,
+    MatPaginatorModule,
     FusionChartsModule,
 
 

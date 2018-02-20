@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { FirstserviceService } from '../firstservice.service';
-import {MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
+import {elementStart} from '@angular/core/src/render3/instructions';
 
 
 @Component({
@@ -17,8 +18,9 @@ export class ChildAppcompComponent implements OnInit {
   error: any;
 
   selection = new SelectionModel<Element>(true, []);
-  displayedColumns = ['doc_viewed', 'res_or_no' , 'doc_id', 'score', 'tag'];
+  displayedColumns = ['doc_viewed', 'res_or_no' , 'doc_id', 'score'];
   dataSource: any;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
 
@@ -42,6 +44,19 @@ export class ChildAppcompComponent implements OnInit {
       }
        });
   }
+
+  predict_score = function() {
+     console.log('clicked predict score');
+     this.firstservice.get_training_Data().subscribe(results => {
+       this.predict_result = results;
+       if (results) {
+         location.reload();
+       }
+     }, err => {
+       this.predict_result = 'error in predict score';
+     });
+   }
+
 
   onSelectionChange = function(data) {
     this.firstservice.getDoc(data).subscribe(results  => {
@@ -75,11 +90,19 @@ export class ChildAppcompComponent implements OnInit {
 
   }
 
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
+
   constructor(private firstservice: FirstserviceService) {
 
 
 
-    this.firstservice.getData().subscribe(data => {
+    this.firstservice.get_training_score().subscribe(data => {
         this.httpdata = data;
         const doc_id_score = [];
         this.httpdata.forEach(function (eachdata) {
@@ -92,6 +115,7 @@ export class ChildAppcompComponent implements OnInit {
                                       },
                             'data': doc_id_score};
         this.dataSource = new MatTableDataSource(this.httpdata);
+        this.dataSource.paginator = this.paginator;
       },
 
       err => {
