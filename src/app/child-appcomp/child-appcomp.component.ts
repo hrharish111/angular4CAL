@@ -92,9 +92,20 @@ export class ChildAppcompComponent implements OnInit {
 
 
   applyFilter(filterValue: string) {
+    const data_filter = []
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+    const all_data = this.dataSource.data;
+
+    all_data.forEach(function(element) {
+
+      if (String(element.id).indexOf(filterValue) === 0) {
+        console.log(element);
+        data_filter.push(element);
+      }
+
+    })
+    this.dataSource.filteredData = data_filter;
   }
 
 

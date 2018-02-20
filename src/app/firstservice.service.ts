@@ -77,4 +77,13 @@ export class FirstserviceService {
     .map(response => response.json());
 
     }
+
+
+    public get_training_score_test(args): Observable<any> {
+    console.log(args);
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+     return this.http.post(environment.apiEndpoint + 'get_training_score',{'index_details': index_details})
+    .map(response => response.json());
+
+    }
 }

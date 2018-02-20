@@ -9,7 +9,7 @@
     </div>
 
 
-    <mat-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource.filteredData">
 
      <ng-container matColumnDef="doc_viewed">
       <mat-header-cell *matHeaderCellDef>
