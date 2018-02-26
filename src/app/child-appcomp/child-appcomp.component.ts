@@ -32,6 +32,13 @@ export class ChildAppcompComponent implements OnInit {
     chartdata;
     title = 'Angular4 FusionCharts Sample';
 
+    // pagination
+
+    length: number;
+    pageIndex: number= 1;
+    pageSize: number= 10;
+    pageSizeOptions: number[] = [5, 10, 25, 50, 100];
+
 
 
   add_updated_doc = function () {
@@ -106,14 +113,11 @@ export class ChildAppcompComponent implements OnInit {
 
     })
     this.dataSource.filteredData = data_filter;
+    this.dataSource.pagination = this.paginator;
   }
 
-
-  constructor(private firstservice: FirstserviceService) {
-
-
-
-    this.firstservice.get_training_score().subscribe(data => {
+  load_data() {
+        this.firstservice.get_training_score().subscribe(data => {
         this.httpdata = data;
         const doc_id_score = [];
         this.httpdata.forEach(function (eachdata) {
@@ -132,16 +136,25 @@ export class ChildAppcompComponent implements OnInit {
       err => {
         this.error = 'something went wrong';
       });
-
-
-
-
-
-
-
   }
 
 
+  setPagination(length, startIndex, pageSize) {
+    this.length = length;
+    this.pageIndex = startIndex;
+    this.pageSize = pageSize;
+  }
+
+  onPaginateChange(event) {
+        this.pageIndex = event.pageIndex;
+        this.pageSize = event.pageSize;
+        this.load_data();
+    }
+
+  constructor(private firstservice: FirstserviceService) { }
+
+
   ngOnInit() {
+    this.load_data();
 
 }}

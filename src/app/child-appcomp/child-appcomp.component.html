@@ -9,7 +9,7 @@
     </div>
 
 
-    <mat-table #table [dataSource]="dataSource.filteredData">
+    <mat-table #table [dataSource]="dataSource">
 
      <ng-container matColumnDef="doc_viewed">
       <mat-header-cell *matHeaderCellDef>
@@ -63,7 +63,8 @@
       <mat-paginator #paginator
                  [pageSize]="10"
                  [pageSizeOptions]="[5, 10, 20]"
-                 [showFirstLastButtons]="true">
+                 [showFirstLastButtons]="true"
+                  (page)="pageEvent = load_data($event)">
   </mat-paginator>
       <button mat-button class='button_try' >update me</button>
 

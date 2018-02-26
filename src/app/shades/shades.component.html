@@ -58,12 +58,17 @@
     </mat-row>
 
 
+
   </mat-table>
-      <mat-paginator #paginator
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]"
-                 [showFirstLastButtons]="true">
+    <mat-paginator #paginator
+                  [length]= "length"
+                     [pageSize]="pageSize"
+                 [showFirstLastButtons]="true"
+                     (page)="pageEvent = onPaginateChange($event)"
+
+                      >
   </mat-paginator>
+
       <button mat-button class='button_try' >update me</button>
 
   </form>

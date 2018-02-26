@@ -24,6 +24,12 @@ export class FirstserviceService {
     map(response => response.json());
   }
 
+  delete_project_data(): Observable<any> {
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+    return this.http.post(environment.apiEndpoint + 'delete_project',{'index_details': index_details}).
+    map(response => response.json());
+  }
+
   // public getData<T>():Observable<T>{
   //   return this.http.post<T>('http://localhost:5000')
   // }
@@ -79,11 +85,16 @@ export class FirstserviceService {
     }
 
 
-    public get_training_score_test(args): Observable<any> {
-    console.log(args);
+
+
+    public get_training_score_test(pageIndex): Observable<any> {
+    console.log(pageIndex)
     const index_details = JSON.parse(localStorage.getItem('local_store_value'));
-     return this.http.post(environment.apiEndpoint + 'get_training_score',{'index_details': index_details})
+     return this.http.post(environment.apiEndpoint + 'get_training_score_test', {'index_details': index_details, 'page_details' : pageIndex})
     .map(response => response.json());
 
     }
+
+
+
 }

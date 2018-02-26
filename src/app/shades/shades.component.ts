@@ -26,7 +26,6 @@ export class ShadesComponent implements OnInit {
   selection = new SelectionModel<Element>(true, []);
   displayedColumns = ['doc_viewed', 'res_or_no' , 'doc_id', 'score'];
 
-   @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
 
 
@@ -36,6 +35,15 @@ export class ShadesComponent implements OnInit {
     type = 'column2d';
     dataFormat = 'json';
     title = 'Angular4 FusionCharts Sample';
+
+
+
+    // pagination
+
+   length: number;
+    pageIndex = 0;
+    pageSize: any;
+
 
     add_updated_doc = function () {
     const selected_doc = this.selection.selected;
@@ -100,35 +108,59 @@ export class ShadesComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  load_data() {
+    this.firstservice.get_training_score_test(this.pageIndex).subscribe(data => {
 
-
-  constructor(private firstservice: FirstserviceService) {
-
-
-
-       this.firstservice.get_training_score().subscribe(data => {
-        this.httpdata = data;
+        this.httpdata = data['_source'];
         const doc_id_score = [];
         this.httpdata.forEach(function (eachdata) {
           const object_key = String(eachdata.id);
           const object_value = eachdata.score;
-          doc_id_score.push({label: object_key, value: object_value });
+          doc_id_score.push({label: object_key, value: object_value});
         });
         console.log(doc_id_score)
-        this.chartdata = {'chart': {'caption' : 'word score graph', 'theme' : 'fint'
-                                      },
-                            'data': doc_id_score};
+        this.chartdata = {
+          'chart': {
+            'caption': 'word score graph', 'theme': 'fint'
+          },
+          'data': doc_id_score
+        };
+        this.length = data.total_page * 10;
+        this.setPagination(this.length, this.pageIndex, doc_id_score.length )
         this.dataSource = new MatTableDataSource(this.httpdata);
-        this.dataSource.paginator = this.paginator;
+
+
       },
 
       err => {
         this.error = 'something went wrong';
       });
 
+  }
+
+  setPagination(length, startIndex, pageSize ) {
+    this.length = length;
+    this.pageIndex = startIndex;
+    this.pageSize = pageSize;
+  }
+
+  onPaginateChange(event) {
+        this.length = this.length
+        this.pageIndex = event.pageIndex;
+        this.load_data();
     }
 
-  ngOnInit() {}
+  constructor(private firstservice: FirstserviceService) {
+
+
+
+
+
+    }
+
+  ngOnInit() {
+    this.load_data();
+  }
 
 }
 

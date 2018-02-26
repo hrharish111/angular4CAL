@@ -53,6 +53,17 @@ export class CreateProjectComponent implements OnInit {
 
   }
 
+  delete_project = function () {
+    this.firstService.delete_project_data().subscribe( results => {
+      if (results['success'] === true){
+        localStorage.clear();
+      } else {
+        alert('something went wrong');
+      }
+    })
+    console.log('delete_project');
+  }
+
 
 
   constructor(private router: Router,
