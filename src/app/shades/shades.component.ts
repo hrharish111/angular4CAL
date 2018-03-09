@@ -42,7 +42,7 @@ export class ShadesComponent implements OnInit {
 
    length: number;
     pageIndex = 0;
-    pageSize: any;
+    pageSize = 30;
 
 
     add_updated_doc = function () {
@@ -125,8 +125,8 @@ export class ShadesComponent implements OnInit {
           },
           'data': doc_id_score
         };
-        this.length = data.total_page * 10;
-        this.setPagination(this.length, this.pageIndex, doc_id_score.length )
+        this.length = data.total_page * 30;
+        // this.setPagination(this.length, this.pageIndex, doc_id_score.length )
         this.dataSource = new MatTableDataSource(this.httpdata);
 
 
@@ -138,11 +138,11 @@ export class ShadesComponent implements OnInit {
 
   }
 
-  setPagination(length, startIndex, pageSize ) {
-    this.length = length;
-    this.pageIndex = startIndex;
-    this.pageSize = pageSize;
-  }
+  // setPagination(length, startIndex, pageSize ) {
+  //   this.length = length;
+  //   this.pageIndex = startIndex;
+  //   this.pageSize = pageSize;
+  // }
 
   onPaginateChange(event) {
         this.length = this.length
