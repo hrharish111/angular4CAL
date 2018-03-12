@@ -92,9 +92,10 @@ export class ShadesComponent implements OnInit {
 
 
   checkResponsive = function(args, args2) {
+    console.log(args, args2)
     this.selection.selected.forEach(function (entry) {
-      console.log(entry);
-      if (entry._id === args._id) {
+      if (args.id === entry.id ) {
+          console.log(entry)
           entry.responsive = args2;
       }
     });
