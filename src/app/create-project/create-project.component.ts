@@ -17,8 +17,8 @@ import {FormdataDetails} from './form_data_details';
 export class CreateProjectComponent implements OnInit {
   list_index: any;
   form_data = new FormdataDetails();
-  myControl_cal: FormControl = new FormControl('',[Validators.required]);
-  myControl_itter: FormControl = new FormControl('',[Validators.required]);
+  myControl_cal: FormControl = new FormControl('', [ Validators.required]);
+  myControl_itter: FormControl = new FormControl('', [ Validators.required]);
   cal_index_list: any;
 
   get_Cal_index =  function(args) {

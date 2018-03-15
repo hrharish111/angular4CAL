@@ -4,6 +4,6 @@ export class FormdataDetails {
   constructor(
     public index_name?: string,
     public cal_index?: string,
-    public itter?: number,
+    public extra_sample?: number,
   ) {}
 }
