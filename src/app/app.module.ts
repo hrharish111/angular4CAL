@@ -8,13 +8,12 @@ import {MatButtonModule, MatCheckboxModule} from '@angular/material';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatSelectModule} from '@angular/material';
+import {MatSelectModule , MatInputModule , MatTableModule , MatFormFieldModule} from '@angular/material';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatFormFieldModule} from '@angular/material';
-import {MatInputModule} from '@angular/material';
-import {MatTableModule} from '@angular/material';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatPaginatorModule} from '@angular/material/paginator';
+
+
 
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
@@ -28,6 +27,7 @@ import { ShadesComponent } from './shades/shades.component';
 import { CreateProjectComponent } from './create-project/create-project.component';
 import { SearchFilterPipe } from './search-filter.pipe';
 import { AddDocsComponent } from './add-docs/add-docs.component';
+import { IllusionSetComponent } from './illusion-set/illusion-set.component';
 
 
 FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
@@ -40,6 +40,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
     CreateProjectComponent,
     SearchFilterPipe,
     AddDocsComponent,
+    IllusionSetComponent,
 
   ],
   imports: [
@@ -73,11 +74,15 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
       component: CreateProjectComponent
     },
     {
-    	path:'training-cmp',
-    	component:ChildAppcompComponent
-    },{
-      path:'shades-cmp',
-      component:ShadesComponent
+      path : 'training-cmp',
+      component : ChildAppcompComponent
+    },
+    {
+      path : 'shades-cmp',
+      component : ShadesComponent
+    }, {
+      path : 'illusion-cmp',
+      component : IllusionSetComponent
     }])
   ],
   providers: [FirstserviceService],

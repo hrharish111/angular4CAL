@@ -26,6 +26,9 @@ export class ShadesComponent implements OnInit {
   selection = new SelectionModel<Element>(true, []);
   displayedColumns = ['doc_viewed', 'res_or_no' , 'doc_id', 'score'];
 
+   // config details can be addes here
+  config_data: any;
+
    @ViewChild(MatSort) sort: MatSort;
 
 

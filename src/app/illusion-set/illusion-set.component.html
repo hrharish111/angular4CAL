@@ -1,0 +1,121 @@
+<div class="container">
+
+
+
+
+<form class="formwidth" (ngSubmit)="create_ellusion()" #myForm="ngForm">
+
+       <mat-form-field>
+            <input type="number" placeholder= "0.95" matInput [formControl]= "confidence_level" required name="confidence_level">
+            <mat-error *ngIf="confidence_level.invalid">please enter the confidence level in number </mat-error>
+       </mat-form-field><br>
+
+  <mat-form-field>
+            <input type="number" placeholder= "0" matInput [formControl]= "min_score" required name="min_score">
+            <mat-error *ngIf="min_score.invalid">please enter the min_score in number </mat-error>
+        </mat-form-field><br>
+
+  <mat-form-field>
+            <input type="number" placeholder= "1503" matInput [formControl]= "num_samples" required name="num_samples">
+            <mat-error *ngIf="num_samples.invalid">please enter the num_samples in number </mat-error>
+        </mat-form-field><br>
+
+  <mat-form-field>
+            <input type="text" placeholder= "random/stratified" matInput [formControl]= "sampling" required name="sampling">
+            <mat-error *ngIf="sampling.invalid">please enter the samples name </mat-error>
+        </mat-form-field><br>
+
+  <mat-form-field>
+            <input type="text" placeholder= "ellusion name" matInput [formControl]= "ellusion_name" required name="ellusion_name">
+            <mat-error *ngIf="ellusion_name.invalid">please enter the response_distribution in number </mat-error>
+        </mat-form-field><br>
+
+ <button type="submit" mat-raised-button="">Submit</button>
+
+</form>
+
+<!--<div class="generate_ellusion">-->
+  <!--OR <button mat-button class='button_try' (click)="generate_ellusion_ids()" >Generate Existing</button>-->
+<!--</div>-->
+
+
+  <form class="formwidth extra_form" [hidden]="!ellusion_ids" (ngSubmit)="add_ellusion_doc()" #docForm="ngForm">
+    <div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+
+    <mat-table #table [dataSource]="ellusion_ids">
+
+     <ng-container matColumnDef="doc_viewed">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+     <ng-container matColumnDef="res_or_no" >
+        <mat-header-cell *matHeaderCellDef> Res or Not </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+      <mat-radio-group [disabled]= "!selection.isSelected(row)">
+        <mat-radio-button [value]="true"  (click)="checkResponsive(row,true)">Responsive</mat-radio-button>
+        <mat-radio-button [value]="false" (click)="checkResponsive(row,false)">Non-responsive</mat-radio-button>
+      </mat-radio-group>
+      </mat-cell>
+    </ng-container>
+
+
+     <!-- Name Column -->
+    <ng-container matColumnDef="Doc_Id">
+      <mat-header-cell *matHeaderCellDef> Doc Id </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectionChange(row)">
+    </mat-row>
+
+
+  </mat-table>
+       <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+
+
+
+      <button mat-button class='button_try' >Add Documents</button>
+
+  </form>
+
+
+
+  <div [hidden] ="!righttopper"class="textbox_display">{{righttopper}}</div>
+
+
+
+ <button mat-button class='predict_try' (click)="create_stats()">Create stats</button>
+  <button mat-button class='button_try' (click)="generate_ellusion_ids()" >Generate Existing</button>
+
+<div [hidden]="status_result">
+  <p>False Negative = {{stats_result_false_negative}}</p>
+  <p>Maring error  = {{stats_result_margin_of_error}}</p>
+</div>
+
+
+
+
+</div>
+

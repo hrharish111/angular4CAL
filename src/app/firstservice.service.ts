@@ -77,23 +77,51 @@ export class FirstserviceService {
     .map(response => response.json());
     }
 
-    public get_training_score(): Observable<any> {
+  public get_training_score(): Observable<any> {
     const index_details = JSON.parse(localStorage.getItem('local_store_value'));
      return this.http.post(environment.apiEndpoint + 'get_training_score',{'index_details': index_details})
     .map(response => response.json());
 
     }
 
-
-
-
-    public get_training_score_test(pageIndex): Observable<any> {
+  public get_training_score_test(pageIndex): Observable<any> {
     console.log(pageIndex)
     const index_details = JSON.parse(localStorage.getItem('local_store_value'));
-     return this.http.post(environment.apiEndpoint + 'get_training_score_test', {'index_details': index_details, 'page_details' : pageIndex})
+    return this.http.post(environment.apiEndpoint + 'get_training_score_test', {'index_details': index_details, 'page_details' : pageIndex})
     .map(response => response.json());
 
     }
+
+  public get_default_ellusion_config(): Observable<any> {
+    return this.http.get(environment.apiEndpoint + 'get_ellusion_test_config')
+      .map(response => response.json());
+  }
+
+  public create_ellusion_test(index_details, require_input): Observable<any> {
+    return this.http.post(environment.apiEndpoint + 'create_ellusion_test', {'index_details': index_details, 'elusion_test_name': require_input})
+      .map(response => response.json());
+  }
+
+  public get_ellusion_test_ids(index_details, ellusion_data ): Observable<any> {
+    return this.http.post(environment.apiEndpoint + 'get_ellusion_test_ids', {'index_details': index_details, 'ellusion_data' : ellusion_data})
+      .map(response => response.json());
+  }
+
+
+  public add_marked_ids_to_ellusion_test(index_details, ellusion_data , changed_sample): Observable <any> {
+    return this.http.post(environment.apiEndpoint + 'add_marked_ids_to_ellusion_test', {'index_details': index_details,
+      'ellusion_data': ellusion_data, 'changed_sample' : changed_sample}).map(response => response.json());
+  }
+
+  public get_stats_for_ellusion_test(index_details, ellusion_data): Observable <any>{
+    return this.http.post(environment.apiEndpoint + 'get_stats_for_ellusion_test', {'index_details': index_details,
+      'ellusion_data': ellusion_data}).map(response => response.json());
+  }
+
+
+
+
+
 
 
 
