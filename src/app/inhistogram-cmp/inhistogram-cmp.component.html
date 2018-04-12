@@ -1,0 +1,19 @@
+<!--<div>
+  <canvas id="myChart" width="600" height="350"></canvas>
+</div>> -->
+
+
+<form class="formwidth" (ngSubmit)="get_histogram()" #myForm="ngForm">
+<mat-form-field>
+  <mat-select placeholder="Histogram list">
+    <mat-option (click)="selected_menu(stats)" *ngFor="let stats of list_stats" [value]="stats" >
+      {{ stats }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<button type="submit" mat-raised-button="">Submit</button>
+</form>
+
+<div *ngIf="chart">
+  <canvas id="canvas">{{ chart }}</canvas>
+</div>

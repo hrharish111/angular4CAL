@@ -3,6 +3,11 @@
     float: right;
 }
 
+.predict_try {
+  background-color: green;
+  margin-top: 25px;
+}
+
 .extra_form {
     display: inline-block;
     width: 60%;
@@ -16,22 +21,11 @@
 .textbox_display{
   width: 38%;
   float: right;
-
+  overflow: auto;
+  background-color: white;
   margin: 0px;
   padding: 25px;
-}
-
-.doc_display{
-  background-color: white;
-  overflow: auto;
-  height: 400px;
-
-}
-.chart_display{
-  margin-top: 12px;
-  height: 400px;
-  overflow: auto;
-  border-style: dashed;
+  max-height: 50%;
 }
 
 .example-container {
@@ -59,14 +53,4 @@
 .mat-form-field {
   font-size: 14px;
   width: 100%;
-}
-
-.predict_try {
-  background-color: green;
-  margin-top: 25px;
-}
-
-textarea{
-  height:90px;
-  background-color: white;
 }

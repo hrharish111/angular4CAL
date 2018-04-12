@@ -45,35 +45,66 @@ export class ShadesComponent implements OnInit {
 
    length: number;
     pageIndex = 0;
-    pageSize = 30;
+    pageSize = 10;
 
 
     add_updated_doc = function () {
     const selected_doc = this.selection.selected;
-    this.firstservice.add_updated_service(selected_doc).subscribe(results  => {
+    const idtagpairs = {};
+    selected_doc.forEach(function(entry) {
+      console.log(entry);
+      idtagpairs[entry.id] = entry.responsive;
+    });
+    const selected_doc_edited = {'IdTagPairs': idtagpairs, 'trainingSetId': '' };
+    this.firstservice.add_training_service(selected_doc_edited).subscribe(results  => {
       this.success_result = results;
       if (results) {
-        console.log('page get reloaded to generate score');
-        location.reload();
+        this.selection.clear();
+        this.dataSource = this.load_data();
+        console.log('add_doc_completed');
       }
-       });
-  }
+       }, err => {
+          this.success_result = 'error_in_form';
+    });
+  };
 
-  predict_score = function() {
-     console.log('clicked predict score');
-     this.firstservice.get_training_Data().subscribe(results => {
-       this.predict_result = results;
-       if (results) {
-         location.reload();
-       }
-     }, err => {
-       this.predict_result = 'error in predict score';
-     });
-   }
+  // predict_score = function() {
+  //    console.log('clicked predict score');
+  //    this.firstservice.create_predict_score().subscribe(results => {
+  //      this.predict_result = results;
+  //      if (results) {
+  //        location.reload();
+  //      }
+  //    }, err => {
+  //      this.predict_result = 'error in predict score';
+  //    });
+  //  }
+
+   predict_score = function() {
+    console.log('clicked predict score');
+    this.firstservice.create_predict_score().subscribe(results => {
+      this.predict_result = results;
+      if (results.status === 201) {
+        alert('please be patience your data is predicting')
+        location.reload();
+      } else if (results.status === 501) {
+        alert('Duplicate job please be patience..');
+      } else {
+        alert('Something went wrong');
+      }
+    }, err => {
+      if (err.status === 501) {
+      alert('Duplicate job please be patience..');
+    } else {
+      alert('something is not correct');
+    }
+    });
+  };
+
 
 
   onSelectionChange = function(data) {
-    this.firstservice.getDoc(data).subscribe(results  => {
+    this.firstservice.getDocData(data).subscribe(results  => {
         this.righttopper = results['_source']['itemText'];
        });
   };
@@ -113,25 +144,26 @@ export class ShadesComponent implements OnInit {
   }
 
   load_data() {
-    this.firstservice.get_training_score_test(this.pageIndex).subscribe(data => {
-
-        this.httpdata = data['_source'];
+    this.firstservice.get_training_score_test(this.pageIndex * 10).subscribe(data => {
+        this.httpdata = data;
+        const new_http_data = [];
         const doc_id_score = [];
-        this.httpdata.forEach(function (eachdata) {
-          const object_key = String(eachdata.id);
-          const object_value = eachdata.score;
-          doc_id_score.push({label: object_key, value: object_value});
-        });
-        console.log(doc_id_score)
+        let i = 0;
+        for (i = 0; i < this.httpdata.ids.length; i++ ) {
+            doc_id_score.push({label: this.httpdata.ids[i] , value: this.httpdata.scores[i]});
+            new_http_data.push({'id': this.httpdata.ids[i], 'score': this.httpdata.scores[i]});
+        }
+
+        console.log(doc_id_score);
         this.chartdata = {
           'chart': {
             'caption': 'word score graph', 'theme': 'fint'
           },
           'data': doc_id_score
         };
-        this.length = data.total_page * 30;
+        this.length = data.total_docs;
         // this.setPagination(this.length, this.pageIndex, doc_id_score.length )
-        this.dataSource = new MatTableDataSource(this.httpdata);
+        this.dataSource = new MatTableDataSource(new_http_data);
 
 
       },
@@ -149,7 +181,7 @@ export class ShadesComponent implements OnInit {
   // }
 
   onPaginateChange(event) {
-        this.length = this.length
+        this.length = this.length;
         this.pageIndex = event.pageIndex;
         this.load_data();
     }

@@ -65,13 +65,18 @@ export class AddDocsComponent implements OnInit {
   add_training_doc = function () {
 
     const selected_doc = this.selection.selected;
-    const index_details = JSON.parse(localStorage.getItem('local_store_value'))
-    console.log('form is completely working fine');
-    this.firstservice.add_training_service(index_details, selected_doc).subscribe(results  => {
+    const idtagpairs = {};
+    selected_doc.forEach(function(entry) {
+      idtagpairs[entry._id] = entry._source.responsive;
+    });
+    const selected_doc_edited = {'IdTagPairs': idtagpairs, 'trainingSetId': '' };
+    this.firstservice.add_training_service(selected_doc_edited).subscribe(results  => {
       this.success_result = results;
       if (results) {
+
+        this.selection.clear();
+        this.dataSource = this.search_words();
         console.log('add_doc_completed');
-        location.reload();
       }
        }, err => {
           this.success_result = 'error_in_form';
@@ -81,15 +86,17 @@ export class AddDocsComponent implements OnInit {
 
    predict_score = function() {
      console.log('clicked predict score');
-     this.firstservice.get_training_Data().subscribe(results => {
+     this.firstservice.create_predict_score().subscribe(results => {
        this.predict_result = results;
-       if (results) {
+       if (results.status === 201) {
+         alert('please be patience your data is predicting')
          location.reload();
        }
      }, err => {
-       this.predict_result = 'error in predict score';
+       console.log(err);
+       alert('something went wrong I am not predicting');
      });
-   }
+   };
 
 
 
@@ -97,7 +104,6 @@ export class AddDocsComponent implements OnInit {
 
 
   onSelectionChange = function(data) {
-    console.log(data['_source']['itemText']);
     this.righttopper = data['_source']['itemText'];
     // this.firstservice.getDoc(data).subscribe(results  => {
        //  this.righttopper = results['_source']['itemText'];

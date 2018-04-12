@@ -1,8 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { FirstserviceService } from '../firstservice.service';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import {SelectionModel} from '@angular/cdk/collections';
-import {elementStart} from '@angular/core/src/render3/instructions';
+import {FormControl, Validators} from '@angular/forms';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
+import { AlertdialogComponent } from '../alertdialog/alertdialog.component';
+
+
+
 
 
 @Component({
@@ -12,149 +16,76 @@ import {elementStart} from '@angular/core/src/render3/instructions';
 })
 export class ChildAppcompComponent implements OnInit {
 
-  public httpdata: any;
-  public message: string;
-  righttopper: any;
-  error: any;
+  config_add: FormControl = new FormControl('', [ Validators.required]);
 
-  selection = new SelectionModel<Element>(true, []);
-  displayedColumns = ['doc_viewed', 'res_or_no' , 'doc_id', 'score'];
-  dataSource: any;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  Get_Deaults = function() {
+    this.firstservice.get_cal_default_config_service().subscribe(result => {
+      console.log(result);
+      const response = 'configOptions \n algoNames : ' + result.configOptions.algoNames
+      + '\n corpous space : ' + result.configOptions.corpusSpaces + '\n extra samples : ' +
+      JSON.stringify(result.configOptions.extraSampling) + '\n tag_map : ' + JSON.stringify(result.configOptions.tagMap) +
+      '\n----------------------' + 'default_config -------------------- \n {"config" :' + JSON.stringify(result.defaultConfig) + '}';
+      this.openDialog(response);
+    });
+  };
 
-
-
-    id = 'chart1';
-    width = 400;
-    height = 380;
-    type = 'column2d';
-    dataFormat = 'json';
-    chartdata;
-    title = 'Angular4 FusionCharts Sample';
-
-    // pagination
-
-    length: number;
-    pageIndex: number= 1;
-    pageSize: number= 10;
-    pageSizeOptions: number[] = [5, 10, 25, 50, 100];
-
-
-
-  add_updated_doc = function () {
-    const selected_doc = this.selection.selected;
-    this.firstservice.add_updated_service(selected_doc).subscribe(results  => {
-      this.success_result = results;
-      if (results) {
-        console.log('page get reloaded to generate score');
-        location.reload();
-      }
-       });
-  }
-
-  predict_score = function() {
-     console.log('clicked predict score');
-     this.firstservice.get_training_Data().subscribe(results => {
-       this.predict_result = results;
-       if (results) {
-         location.reload();
-       }
-     }, err => {
-       this.predict_result = 'error in predict score';
-     });
-   }
-
-
-  onSelectionChange = function(data) {
-    this.firstservice.getDoc(data).subscribe(results  => {
-        this.righttopper = results['_source']['itemText'];
-       });
+  Get_Existing_Config = function() {
+    this.firstservice.get_cal_present_config_service().subscribe(result => {
+      this.openDialog(JSON.stringify(result));
+    }, error => {
+      this.openDialog('No default config avaliable');
+    });
   };
 
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-
-  checkResponsive = function(args, args2) {
-    this.selection.selected.forEach(function (entry) {
-      console.log(entry);
-      if (entry._id === args._id) {
-          entry.responsive = args2;
-      }
-    });
-
-  }
-
-
-  applyFilter(filterValue: string) {
-    const data_filter = []
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    const all_data = this.dataSource.data;
-
-    all_data.forEach(function(element) {
-
-      if (String(element.id).indexOf(filterValue) === 0) {
-        console.log(element);
-        data_filter.push(element);
-      }
-
-    })
-    this.dataSource.filteredData = data_filter;
-    this.dataSource.pagination = this.paginator;
-  }
-
-  load_data() {
-        this.firstservice.get_training_score().subscribe(data => {
-        this.httpdata = data;
-        const doc_id_score = [];
-        this.httpdata.forEach(function (eachdata) {
-          const object_key = String(eachdata.id);
-          const object_value = eachdata.score;
-          doc_id_score.push({label: object_key, value: object_value });
-        });
-        console.log(doc_id_score)
-        this.chartdata = {'chart': {'caption' : 'word score graph', 'theme' : 'fint'
-                                      },
-                            'data': doc_id_score};
-        this.dataSource = new MatTableDataSource(this.httpdata);
-        this.dataSource.paginator = this.paginator;
-      },
-
-      err => {
-        this.error = 'something went wrong';
-      });
-  }
-
-
-  setPagination(length, startIndex, pageSize) {
-    this.length = length;
-    this.pageIndex = startIndex;
-    this.pageSize = pageSize;
-  }
-
-  onPaginateChange(event) {
-        this.pageIndex = event.pageIndex;
-        this.pageSize = event.pageSize;
-        this.load_data();
+  set_config = function() {
+    try {
+      const config_json = JSON.parse(this.config_add.value);
+      if (config_json.config) {
+        this.firstservice.set_cal_config_service(config_json).subscribe(result => {
+          if (result.status === 201) {
+          this.openDialog('success');
+        }
+        }, error => {
+          this.openDialog('failed to add config');
+        }); } else {
+          this.openDialog('input is not valid something is wrong');
+        }
+    } catch {
+        this.openDialog('Not a valid JSON');
     }
 
-  constructor(private firstservice: FirstserviceService) { }
+  };
+
+  openDialog(alerting_data) {
+
+
+    const dialogRef = this.dialog.open(AlertdialogComponent, {
+        width: '50%',
+        data : alerting_data
+        // data: { name: this.name, animal: this.animal }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        // this.animal = result;
+    });
+}
+
+
+
+
+
+
+
+
+  constructor(private firstservice: FirstserviceService, public dialog: MatDialog) { }
 
 
   ngOnInit() {
-    this.load_data();
 
 }}
+
+
+
+

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatButtonModule, MatCheckboxModule} from '@angular/material';
@@ -12,7 +13,7 @@ import {MatSelectModule , MatInputModule , MatTableModule , MatFormFieldModule} 
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatPaginatorModule} from '@angular/material/paginator';
-
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 import * as FusionCharts from 'fusioncharts';
@@ -28,6 +29,9 @@ import { CreateProjectComponent } from './create-project/create-project.componen
 import { SearchFilterPipe } from './search-filter.pipe';
 import { AddDocsComponent } from './add-docs/add-docs.component';
 import { IllusionSetComponent } from './illusion-set/illusion-set.component';
+import { InfluentialCmpComponent } from './influential-cmp/influential-cmp.component';
+import { InhistogramCmpComponent } from './inhistogram-cmp/inhistogram-cmp.component';
+import { AlertdialogComponent } from './alertdialog/alertdialog.component';
 
 
 FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
@@ -41,6 +45,9 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
     SearchFilterPipe,
     AddDocsComponent,
     IllusionSetComponent,
+    InfluentialCmpComponent,
+    InhistogramCmpComponent,
+    AlertdialogComponent,
 
   ],
   imports: [
@@ -62,6 +69,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
     MatRadioModule,
     MatPaginatorModule,
     FusionChartsModule,
+    HttpClientModule,
+    MatDialogModule,
 
 
     RouterModule.forRoot([
@@ -83,9 +92,21 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
     }, {
       path : 'illusion-cmp',
       component : IllusionSetComponent
-    }])
+    },
+      {
+      path : 'influential-cmp',
+      component : InfluentialCmpComponent
+    },
+      {
+      path : 'inhistogram-cmp',
+      component : InhistogramCmpComponent
+    }
+    ])
   ],
   providers: [FirstserviceService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AlertdialogComponent
+]
 })
 export class AppModule { }

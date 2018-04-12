@@ -79,13 +79,13 @@ export class IllusionSetComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.trim(); // Remove whitespacelo
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.ellusion_ids.filter = filterValue;
   }
 
   onSelectionChange = function(data) {
-    this.firstservice.getDoc(data).subscribe(results  => {
+    this.firstservice.getDocData(data).subscribe(results  => {
         this.righttopper = results['_source']['itemText'];
        });
   };

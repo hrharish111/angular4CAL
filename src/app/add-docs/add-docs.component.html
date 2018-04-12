@@ -83,8 +83,8 @@
         <mat-header-cell *matHeaderCellDef> Res or Not </mat-header-cell>
       <mat-cell *matCellDef="let row">
       <mat-radio-group [disabled]= "!selection.isSelected(row)">
-        <mat-radio-button [value]="true"  (click)="checkResponsive(row,true)">Responsive</mat-radio-button>
-        <mat-radio-button [value]="false" (click)="checkResponsive(row,false)">Non-responsive</mat-radio-button>
+        <mat-radio-button [value]="true"  (click)="checkResponsive(row,'RS')">Responsive</mat-radio-button>
+        <mat-radio-button [value]="false" (click)="checkResponsive(row,'NRS')">Non-responsive</mat-radio-button>
       </mat-radio-group>
       </mat-cell>
     </ng-container>

@@ -27,6 +27,7 @@
         </mat-form-field>
 
       </td>
+
       <td>
         <mat-form-field>
             <input type="text" placeholder="cal Index" matInput [formControl]="myControl_cal" required name="cal index" [matAutocomplete]="auto">
@@ -39,13 +40,14 @@
             </mat-option>
         </mat-autocomplete>
       </td>
-      <td>
+
+      <!-- <td>
         <mat-input-container class="fullwidth">
           <input matInput="number" placeholder="No of samples" id="ittrations" [formControl]="myControl_itter" required [(ngModel)]="form_data.extra_sample" name="ittrations">
           <mat-error *ngIf="myControl_itter.invalid">please provide samples</mat-error>
         </mat-input-container>
 
-      </td>
+      </td> -->
     </tr>
   </table>
   <p>

@@ -1,90 +1,16 @@
-<div class="container">
+<div class='container'>
+<button type="button" mat-raised-button=" "class='predict_try' (click)="Get_Deaults()">GET Defaults</button>
+<button type="button" mat-raised-button=" "class='predict_try' (click)="Get_Existing_Config()">GET Existing Config</button>
 
+<br>
+<form class="formwidth" (ngSubmit)="set_config()" #myForm="ngForm">
 
-  <form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="add_updated_doc()" #docForm="ngForm">
-    <div class="example-header">
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
-    </div>
+  <mat-form-field>
+       <textarea matInput  placeholder="add your config" mat-minlength="50"  [formControl]="config_add" required name="config"></textarea>
+       <mat-error *ngIf="config_add.invalid">please enter your configuration be seeing default config</mat-error>
+  </mat-form-field>
 
-
-    <mat-table #table [dataSource]="dataSource">
-
-     <ng-container matColumnDef="doc_viewed">
-      <mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()">
-        </mat-checkbox>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)">
-        </mat-checkbox>
-      </mat-cell>
-    </ng-container>
-
-     <ng-container matColumnDef="res_or_no" >
-        <mat-header-cell *matHeaderCellDef> Res or Not </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-      <mat-radio-group [disabled]= "!selection.isSelected(row)">
-        <mat-radio-button [value]="true"  (click)="checkResponsive(row,true)">Responsive</mat-radio-button>
-        <mat-radio-button [value]="false" (click)="checkResponsive(row,false)">Non-responsive</mat-radio-button>
-      </mat-radio-group>
-      </mat-cell>
-    </ng-container>
-
-
-     <!-- Name Column -->
-    <ng-container matColumnDef="doc_id">
-      <mat-header-cell *matHeaderCellDef> Doc Id </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-    </ng-container>
-
-     <ng-container matColumnDef="score">
-      <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.score}} </mat-cell>
-    </ng-container>
-
-
-    <!--<ng-container matColumnDef="tag">-->
-      <!--<mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let element"> {{element.tag}} </mat-cell>-->
-    <!--</ng-container>-->
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectionChange(row)">
-    </mat-row>
-
-
-  </mat-table>
-      <mat-paginator #paginator
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]"
-                 [showFirstLastButtons]="true"
-                  (page)="pageEvent = load_data($event)">
-  </mat-paginator>
-      <button mat-button class='button_try' >update me</button>
-
-  </form>
-
-  <div class="textbox_display">
-    <div [hidden] ="!righttopper" class="border border-primary doc_display">{{righttopper}}</div>
-     <div [hidden] ="!chartdata" class="border border-primary chart_display">
-       <fusioncharts
-    [id]="id"
-    [width]="width"
-    [height]="height"
-    [type]="type"
-    [dataFormat]="dataFormat"
-    [dataSource]="chartdata"
-></fusioncharts>
-
-  </div>
+<button type="submit" mat-raised-button="">Submit</button>
+</form>
 
 </div>
-</div>
-
- <button mat-button class='predict_try' (click)="predict_score()">Predict Score</button>

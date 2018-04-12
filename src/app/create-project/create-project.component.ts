@@ -21,8 +21,9 @@ export class CreateProjectComponent implements OnInit {
   myControl_itter: FormControl = new FormControl('', [ Validators.required]);
   cal_index_list: any;
 
+  filteredOptions: Observable<string[]>;
+
   get_Cal_index =  function(args) {
-        console.log(args);
         this.firstService.get_cal_index_service(args).subscribe(data => {this.cal_index_list = data; });
       };
 
@@ -42,27 +43,42 @@ export class CreateProjectComponent implements OnInit {
     this.form_data.cal_index = this.myControl_cal.value;
     localStorage.setItem('local_store_value', JSON.stringify(this.form_data));
     this.firstService.create_cal_instance(this.form_data).subscribe(results => {
-      console.log(results)
-      if (results['success'] === true) {
+      console.log(results);
+      if (results.status === 201) {
+            alert('Cal new model created');
             this.router.navigate(['/add-docs']);
        } else {
-        console.log('failed in creating project');
+          alert('failed in creating project');
       }
+    }, error => {
+      if (error.status === 403){
+      alert('Cal Name alread exists redirecting....')
+      this.router.navigate(['/add-docs']);
+    } else {
+      alert('something went wrong')
+    }
     });
     console.log(this.form_data);
 
-  }
+  };
 
   delete_project = function () {
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+    if(index_details) {
     this.firstService.delete_project_data().subscribe( results => {
-      if (results['success'] === true){
+      if (results.status === 201) {
+        alert('Success fully deleted your' + localStorage.getItem('local_store_value') + 'details');
         localStorage.clear();
       } else {
         alert('something went wrong');
       }
-    })
+    });
+  };
     console.log('delete_project');
-  }
+  };
+
+
+
 
 
 
@@ -71,12 +87,17 @@ export class CreateProjectComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.firstService.get_index().subscribe(data => {this.list_index = data; });
+      this.firstService.get_index().subscribe(data => {this.list_index = data;
+      // commented for testing purpose this.list_index
+      this.list_index = ['ng_index'];
+      });
 
   }
 
 
   }
+
+
 
 
 
