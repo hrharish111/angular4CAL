@@ -61,7 +61,7 @@ export class ShadesComponent implements OnInit {
       if (results) {
         this.selection.clear();
         this.dataSource = this.load_data();
-        console.log('add_doc_completed');
+        this.firstservice.openDialog('add_doc_completed');
       }
        }, err => {
           this.success_result = 'error_in_form';

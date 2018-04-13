@@ -45,17 +45,17 @@ export class CreateProjectComponent implements OnInit {
     this.firstService.create_cal_instance(this.form_data).subscribe(results => {
       console.log(results);
       if (results.status === 201) {
-            alert('Cal new model created');
+            this.firstService.openDialog('Cal new model created');
             this.router.navigate(['/add-docs']);
        } else {
-          alert('failed in creating project');
+        this.firstService.openDialog('failed in creating project');
       }
     }, error => {
       if (error.status === 403){
-      alert('Cal Name alread exists redirecting....')
+        this.firstService.openDialog('Cal Name alread exists redirecting....')
       this.router.navigate(['/add-docs']);
     } else {
-      alert('something went wrong')
+      this.firstService.openDialog('something went wrong')
     }
     });
     console.log(this.form_data);
@@ -67,10 +67,10 @@ export class CreateProjectComponent implements OnInit {
     if(index_details) {
     this.firstService.delete_project_data().subscribe( results => {
       if (results.status === 201) {
-        alert('Success fully deleted your' + localStorage.getItem('local_store_value') + 'details');
+        this.firstService.openDialog('Success fully deleted your' + localStorage.getItem('local_store_value') + 'details');
         localStorage.clear();
       } else {
-        alert('something went wrong');
+        this.firstService.openDialog('something went wrong');
       }
     });
   };

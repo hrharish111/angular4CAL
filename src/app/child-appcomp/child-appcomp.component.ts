@@ -2,8 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { FirstserviceService } from '../firstservice.service';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {FormControl, Validators} from '@angular/forms';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
-import { AlertdialogComponent } from '../alertdialog/alertdialog.component';
+
+
 
 
 
@@ -25,15 +25,15 @@ export class ChildAppcompComponent implements OnInit {
       + '\n corpous space : ' + result.configOptions.corpusSpaces + '\n extra samples : ' +
       JSON.stringify(result.configOptions.extraSampling) + '\n tag_map : ' + JSON.stringify(result.configOptions.tagMap) +
       '\n----------------------' + 'default_config -------------------- \n {"config" :' + JSON.stringify(result.defaultConfig) + '}';
-      this.openDialog(response);
+      this.firstservice.openDialog(response);
     });
   };
 
   Get_Existing_Config = function() {
     this.firstservice.get_cal_present_config_service().subscribe(result => {
-      this.openDialog(JSON.stringify(result));
+      this.firstservice.openDialog(JSON.stringify(result));
     }, error => {
-      this.openDialog('No default config avaliable');
+      this.firstservice.openDialog('No default config avaliable');
     });
   };
 
@@ -44,33 +44,19 @@ export class ChildAppcompComponent implements OnInit {
       if (config_json.config) {
         this.firstservice.set_cal_config_service(config_json).subscribe(result => {
           if (result.status === 201) {
-          this.openDialog('success');
+          this.firstservice.openDialog('success');
         }
         }, error => {
-          this.openDialog('failed to add config');
+          this.firstservice.openDialog('failed to add config');
         }); } else {
-          this.openDialog('input is not valid something is wrong');
+          this.firstservice.openDialog('input is not valid something is wrong');
         }
     } catch {
-        this.openDialog('Not a valid JSON');
+        this.firstservice.openDialog('Not a valid JSON');
     }
 
   };
 
-  openDialog(alerting_data) {
-
-
-    const dialogRef = this.dialog.open(AlertdialogComponent, {
-        width: '50%',
-        data : alerting_data
-        // data: { name: this.name, animal: this.animal }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        // this.animal = result;
-    });
-}
 
 
 
@@ -79,7 +65,8 @@ export class ChildAppcompComponent implements OnInit {
 
 
 
-  constructor(private firstservice: FirstserviceService, public dialog: MatDialog) { }
+
+  constructor(private firstservice: FirstserviceService) { }
 
 
   ngOnInit() {

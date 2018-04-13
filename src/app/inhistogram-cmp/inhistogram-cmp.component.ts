@@ -54,20 +54,21 @@ export class InhistogramCmpComponent implements AfterViewInit {
       console.log(results);
 
 
-    // const dataPack1 = results.hist.training_hist;
-    const dataPack1 = [];
-    const dataPack2 = results.hist.corpus_hist;
-    // const dataPack2 = [];
+    const dataPack1 = results.hist.training_hist.map(Math.log2);
+
+    const dataPack2 = results.hist.corpus_hist.map(Math.log2);
+    // const dataPack2 = results.hist.training_hist.map(Math.log2);
     const dates = results.hist.hist_range;
 
-    const numberWithCommas = function(x) {
+    const numberWithCommas = function(y) {
+      const x = Math.round((Math.pow(2, y))) ;
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     };
 
     // this.canvas =
     // // this.canvas = document.getElementById('myChart');
     // this.ctx = this.canvas.getContext('2d');
-    this.chart = new Chart('canvas', {
+      this.chart = new Chart('canvas', {
       type: 'bar',
       data: {
           labels: dates,
@@ -83,7 +84,7 @@ export class InhistogramCmpComponent implements AfterViewInit {
           {
               label: 'Corpus',
               data: dataPack2,
-              backgroundColor: 'black',
+              backgroundColor: 'blue',
               hoverBackgroundColor: 'rgba(225, 58, 55, 0.7)',
               hoverBorderWidth: 2,
               hoverBorderColor: 'lightgrey'
@@ -102,20 +103,30 @@ export class InhistogramCmpComponent implements AfterViewInit {
             }
             }
            },
+          // scales: {
+          //   xAxes: [{
+          //     stacked: true,
+          //     gridLines: { display: false },
+          //     }],
+          //   yAxes: [{
+          //     stacked: true,
+          //     ticks: {
+          //       callback: function(value) { return numberWithCommas(value); },
+          //      },
+          //     }],
+          // }, // scales
           scales: {
-            xAxes: [{
-              stacked: true,
-              gridLines: { display: false },
-              }],
             yAxes: [{
-              stacked: true,
-              ticks: {
-                callback: function(value) { return numberWithCommas(value); },
-               },
-              }],
-          }, // scales
+              scaleLabel: {
+                display: true,
+                labelString: 'log2 Scale'
+              }
+            }]
+          },
+
           legend: {display: true}
       } // options
+
 
     });
   });

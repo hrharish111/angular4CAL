@@ -76,10 +76,11 @@ export class AddDocsComponent implements OnInit {
 
         this.selection.clear();
         this.dataSource = this.search_words();
-        console.log('add_doc_completed');
+        this.firstservice.openDialog('add_doc_completed');
       }
        }, err => {
           this.success_result = 'error_in_form';
+          this.firstservice.openDialog('error in form');
     });
   };
 
@@ -89,12 +90,13 @@ export class AddDocsComponent implements OnInit {
      this.firstservice.create_predict_score().subscribe(results => {
        this.predict_result = results;
        if (results.status === 201) {
-         alert('please be patience your data is predicting')
-         location.reload();
+        alert('please be patience your data is predicting');
+        location.reload();
        }
      }, err => {
        console.log(err);
        alert('something went wrong I am not predicting');
+
      });
    };
 
@@ -108,7 +110,7 @@ export class AddDocsComponent implements OnInit {
     // this.firstservice.getDoc(data).subscribe(results  => {
        //  this.righttopper = results['_source']['itemText'];
        // });
-  }
+  };
 
   checkResponsive = function(args, args2) {
     this.selection.selected.forEach(function (entry) {
@@ -117,7 +119,7 @@ export class AddDocsComponent implements OnInit {
       }
     });
 
-  }
+  };
 
 
    applyFilter(filterValue: string) {

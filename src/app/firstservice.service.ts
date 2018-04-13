@@ -4,12 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
  import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { environment } from '../environments/environment';
+import { AlertdialogComponent } from './alertdialog/alertdialog.component';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
 
 @Injectable()
 export class FirstserviceService {
 
 
-  constructor(private http: Http, private _http: HttpClient) { }
+
+  constructor(private http: Http, private _http: HttpClient, public dialog: MatDialog) { }
   showTodayDate(){
   	let ndate = new Date();
   	return ndate;
@@ -191,6 +194,25 @@ export class FirstserviceService {
   //   return this._http.get(environment.apiEndpoint + 'weather_display')
   //     .map(result => result);
   // }
+
+
+  // all ertras for global method
+
+  openDialog(alerting_data) {
+
+
+
+    const dialogRef = this.dialog.open(AlertdialogComponent, {
+        width: '50%',
+        data : alerting_data
+        // data: { name: this.name, animal: this.animal }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        // this.animal = result;
+    });
+}
 
 
 

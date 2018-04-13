@@ -101,11 +101,11 @@ export class InfluentialCmpComponent implements OnInit {
       if (results) {
         this.selection.clear();
         this.influential_submit();
-        alert('added your influential samples');
+        this.firstservice.openDialog('added your influential samples');
 
       }
        }, err => {
-        alert('some thing went wrong');
+        this.firstservice.openDialog('some thing went wrong');
           this.success_result = 'error_in_form';
     });
   };
@@ -125,14 +125,15 @@ export class InfluentialCmpComponent implements OnInit {
     this.firstservice.create_predict_score().subscribe(results => {
       this.predict_result = results;
       if (results) {
-        alert('please be patient you prediction is running..');
+        this.firstservice.openDialog('please be patient you prediction is running..');
+        alert('prediction is going on please be patience.....');
         location.reload();
       }
     }, err => {
-      alert('please check there is a duplicate job');
+      this.firstservice.openDialog('please check there is a duplicate job');
       this.predict_result = 'error in predict score';
     });
-  }
+  };
 
 
 
