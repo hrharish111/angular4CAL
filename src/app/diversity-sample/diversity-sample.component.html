@@ -1,0 +1,117 @@
+<div class="container">
+  <form class="formwidth" (ngSubmit)="influential_submit()" #myForm="ngForm">
+
+      <!-- <mat-form-field>
+            <mat-select placeholder="Index_name">
+                <mat-option (click)="selected_menu(each_index)"  *ngFor="let each_index of index_name" [value]="each_index">{{each_index}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+    <mat-form-field>
+            <input type="text" placeholder="no_of_doc" matInput [formControl]="no_of_docs" required name="no_of_docs">
+            <mat-error *ngIf="no_of_docs.invalid">please enter the word to search</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="text" placeholder="block coverage" matInput [formControl]="block_coverage" required name="block_coverage">
+          <mat-error *ngIf="block_coverage.invalid">please enter the block covegage</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="text" placeholder="max distance" matInput [formControl]="max_distance" required name="max_distance">
+        <mat-error *ngIf="max_distance.invalid">please enter the max_distance</mat-error>
+    </mat-form-field>
+
+  <button type="submit" mat-raised-button="">Submit</button>
+  </form>
+
+
+
+   <div [hidden]="success_result && success_result == 'error_in_form'" class="alert alert-success alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Success!</strong>
+  </div>
+
+  <div [hidden] ="success_result != 'error_in_form'" class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Failed To add your training</strong>
+  </div>
+
+
+
+  <form class="formwidth extra_form" [hidden]="!dataSource" (ngSubmit)="status_influential_submit()" #docForm="ngForm">
+    <div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+
+    <mat-table #table [dataSource]="dataSource">
+
+     <ng-container matColumnDef="doc_viewed">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+
+
+
+
+
+
+
+     <ng-container matColumnDef="res_or_no" >
+        <mat-header-cell *matHeaderCellDef> Res or Not </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+      <mat-radio-group [disabled]= "!selection.isSelected(row)">
+        <mat-radio-button [value]="true"  (click)="checkResponsive(row,'RS')">Responsive</mat-radio-button>
+        <mat-radio-button [value]="false" (click)="checkResponsive(row,'NRS')">Non-responsive</mat-radio-button>
+      </mat-radio-group>
+      </mat-cell>
+    </ng-container>
+
+
+     <!-- Name Column -->
+    <ng-container matColumnDef="Doc_Id">
+      <mat-header-cell *matHeaderCellDef> Doc Id </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectionChange(row)">
+    </mat-row>
+
+
+  </mat-table>
+       <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+
+
+
+      <button mat-button class='button_try' >Add Documents</button>
+
+  </form>
+
+
+
+  <div [hidden] ="!righttopper"class="textbox_display">{{righttopper}}</div>
+
+</div>
+
+ <button mat-button class='predict_try' (click)="predict_score()">Predict Score</button>
+
+

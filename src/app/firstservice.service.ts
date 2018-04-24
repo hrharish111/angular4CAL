@@ -122,31 +122,62 @@ export class FirstserviceService {
     }
 
   public get_default_ellusion_config(): Observable<any> {
-    return this.http.get(environment.apiEndpoint + 'get_ellusion_test_config')
-      .map(response => response.json());
-  }
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+    return this.http.get(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index +
+    '/ellusionsample?op=getDefaultsettings').map
+    (response => response.json()); }
 
   public create_ellusion_test(index_details, require_input): Observable<any> {
-    return this.http.post(environment.apiEndpoint + 'create_ellusion_test',
-    {'index_details': index_details, 'elusion_test_name': require_input})
-      .map(response => response.json());
+    console.log(require_input);
+    return this.http.put(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index +
+    '/ellusionsample/' + require_input.ellusion_name + '?collection_id=1', {'config': {'confidence_level': require_input.confidence_level,
+  'min_score':require_input.min_score, 'num_samples': require_input.num_sampling, 'sampling': require_input.sampling}} ).map
+    (response => response.json());
+  }
+
+  public generate_elusion_test_ids(index_details, ellusion_data): Observable<any> {
+    return this.http.post(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index +
+    '/ellusionsample/' + ellusion_data + '?op=generateEllusionIds' , {} ).map
+    (response => response);
   }
 
   public get_ellusion_test_ids(index_details, ellusion_data ): Observable<any> {
-    return this.http.post(environment.apiEndpoint
-      + 'get_ellusion_test_ids', {'index_details': index_details, 'ellusion_data' : ellusion_data})
-      .map(response => response.json());
+
+    return this.http.get(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index +
+    '/ellusionsample/' + ellusion_data.ellusion_name + '?op=getEllusionIds').map
+    (response => response.json());
   }
 
 
   public add_marked_ids_to_ellusion_test(index_details, ellusion_data , changed_sample): Observable <any> {
-    return this.http.post(environment.apiEndpoint + 'add_marked_ids_to_ellusion_test', {'index_details': index_details,
-      'ellusion_data': ellusion_data, 'changed_sample' : changed_sample}).map(response => response.json());
+    console.log(changed_sample)
+    return this.http.post(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index +
+    '/ellusionsample/' + ellusion_data.ellusion_name + '?op=addIdTags', {
+      'IdTagPairs': changed_sample,
+      'trainingSetId': '0'
+
+  }).map
+    (response => response);
   }
 
-  public get_stats_for_ellusion_test(index_details, ellusion_data): Observable <any>{
-    return this.http.post(environment.apiEndpoint + 'get_stats_for_ellusion_test', {'index_details': index_details,
-      'ellusion_data': ellusion_data}).map(response => response.json());
+  public generate_stats_for_ellusion_test(index_details, ellusion_data): Observable <any>{
+    return this.http.post(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index +
+    '/ellusionsample/' + ellusion_data.ellusion_name + '?op=generateStats', {}).map
+    (response => response);
+  }
+
+  public get_stats_for_ellusion_test(index_details, ellusion_data): Observable <any> {
+    return this.http.get(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index +
+    '/ellusionsample/' + ellusion_data.ellusion_name + '?op=getStats').map
+    (response => response.json());
+  }
+
+  // diversity sampling starts here
+  public create_diversity_samples(diversity_datas): Observable<any>{
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+    return this.http.post(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index
+    + '/diversity_samples?count='+ diversity_datas.no_of_docs + '&block_coverage=' + diversity_datas.block_coverage + '&max_distance=' +
+    diversity_datas.max_distance,{}).map(response => response);
   }
 
 
@@ -181,6 +212,8 @@ export class FirstserviceService {
        '/cal/' + index_details.cal_index + '/stats')
        .map(response => response.json());
     }
+
+
 
     public get_histogram_data_service(histogram_graph_data): Observable <any> {
       const index_details = JSON.parse(localStorage.getItem('local_store_value'));

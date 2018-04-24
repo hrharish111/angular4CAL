@@ -32,6 +32,7 @@ import { IllusionSetComponent } from './illusion-set/illusion-set.component';
 import { InfluentialCmpComponent } from './influential-cmp/influential-cmp.component';
 import { InhistogramCmpComponent } from './inhistogram-cmp/inhistogram-cmp.component';
 import { AlertdialogComponent } from './alertdialog/alertdialog.component';
+import { DiversitySampleComponent } from './diversity-sample/diversity-sample.component';
 
 
 FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
@@ -48,6 +49,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
     InfluentialCmpComponent,
     InhistogramCmpComponent,
     AlertdialogComponent,
+    DiversitySampleComponent,
 
   ],
   imports: [
@@ -100,6 +102,10 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
       {
       path : 'inhistogram-cmp',
       component : InhistogramCmpComponent
+    },
+    {
+      path:'diversity-cmp',
+      component : DiversitySampleComponent
     }
     ])
   ],

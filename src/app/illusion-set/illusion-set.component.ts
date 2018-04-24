@@ -51,7 +51,16 @@ export class IllusionSetComponent implements OnInit {
     this.firstservice.create_ellusion_test(index_details, this.ellusion_config_form).subscribe(data => {
       this.ellusion_result = data.results;
       alert('created');
+      this.firstservice.generate_elusion_test_ids(index_details, this.ellusion_config_form.ellusion_name).subscribe(
+        response => {
+          console.log(response);
+          if (response.status === 201) {
+          alert('please be patient we will generated Ids for you ...');
+        }});
     });
+
+
+
   }
 
    isAllSelected = function() {
@@ -96,13 +105,16 @@ export class IllusionSetComponent implements OnInit {
     const selected_doc = this.selection.selected;
     const index_details = JSON.parse(localStorage.getItem('local_store_value'))
      const ellusion_details = JSON.parse(localStorage.getItem('ellusion_data'))
-    console.log('form is completely working fine');
-    this.firstservice.add_marked_ids_to_ellusion_test(index_details, ellusion_details , selected_doc).subscribe(results  => {
-      this.success_result = results;
-      console.log(results)
-      if (results) {
-        alert('add_ellusion_completed');
+     const idtagpairs = {};
+    selected_doc.forEach(function(entry) {
+      idtagpairs[entry.id] = entry.responsive;
+    });
+    this.firstservice.add_marked_ids_to_ellusion_test(index_details, ellusion_details , idtagpairs).subscribe(results  => {
+
+      if (results.status === 201) {
         this.selection.clear();
+        this.dataSource = this.get_ellusion_ids();
+        this.firstservice.openDialog('adding ids are completed');
       }
        }, err => {
           this.success_result = 'error_in_form';
@@ -113,26 +125,38 @@ export class IllusionSetComponent implements OnInit {
    create_stats = function() {
      const index_details = JSON.parse(localStorage.getItem('local_store_value'))
      const ellusion_details = JSON.parse(localStorage.getItem('ellusion_data'))
-     this.firstservice.get_stats_for_ellusion_test(index_details, ellusion_details).subscribe(
+     this.firstservice.generate_stats_for_ellusion_test(index_details, ellusion_details).subscribe(
        data => {
-         console.log(data);
-         this.status_result = false;
-         this.stats_result_false_negative = data.false_negative;
-         this.stats_result_margin_of_error = data.margin_of_error;
+         if (data.status === 201) {
+          this.firstservice.get_stats_for_ellusion_test(index_details, ellusion_details).subscribe(ellusion_respose => {
+          this.status_result = false;
+          if (ellusion_respose) {
+          this.firstservice.openDialog('completed generating stats');
+
+         this.stats_result_false_negative = ellusion_respose.false_negative;
+         this.stats_result_margin_of_error = ellusion_respose.margin_of_error;
+          }
+        });
+         }
+
        }
      );
-  }
+  };
 
 
 
-  generate_ellusion_ids() {
-        const index_details = JSON.parse(localStorage.getItem('local_store_value'))
+  get_ellusion_ids() {
+        const index_details = JSON.parse(localStorage.getItem('local_store_value'));
 
-          const ellusion_details = JSON.parse(localStorage.getItem('ellusion_data'))
+          const ellusion_details = JSON.parse(localStorage.getItem('ellusion_data'));
           if (ellusion_details != null) {
             this.firstservice.get_ellusion_test_ids(index_details, ellusion_details).subscribe(
             data => {
-              this.ellusion_ids = new MatTableDataSource(data);
+              const converted_response = [];
+              data.ids.forEach(function(element) {
+                  converted_response.push({'id': element});
+              })
+              this.ellusion_ids = new MatTableDataSource(converted_response);
               this.displayedColumns = ['doc_viewed', 'res_or_no' , 'Doc_Id'];
               this.ellusion_ids.paginator = this.paginator;
             }
