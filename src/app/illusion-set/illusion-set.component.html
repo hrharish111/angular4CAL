@@ -6,17 +6,17 @@
 <form class="formwidth" (ngSubmit)="create_ellusion()" #myForm="ngForm">
 
        <mat-form-field>
-            <input type="number" placeholder= "0.95" matInput [formControl]= "confidence_level" required name="confidence_level">
+            <input type="number" placeholder= "confidence_level" matInput [formControl]= "confidence_level" required name="confidence_level">
             <mat-error *ngIf="confidence_level.invalid">please enter the confidence level in number </mat-error>
        </mat-form-field><br>
 
   <mat-form-field>
-            <input type="number" placeholder= "0" matInput [formControl]= "min_score" required name="min_score">
+            <input type="number" placeholder= "min_score" matInput [formControl]= "min_score" required name="min_score">
             <mat-error *ngIf="min_score.invalid">please enter the min_score in number </mat-error>
         </mat-form-field><br>
 
   <mat-form-field>
-            <input type="number" placeholder= "1503" matInput [formControl]= "num_samples" required name="num_samples">
+            <input type="number" placeholder= "num_samples" matInput [formControl]= "num_samples" required name="num_samples">
             <mat-error *ngIf="num_samples.invalid">please enter the num_samples in number </mat-error>
         </mat-form-field><br>
 
@@ -107,7 +107,7 @@
 
 
  <button mat-button class='predict_try' (click)="create_stats()">Create stats</button>
-  <button mat-button class='button_try' (click)="generate_ellusion_ids()" >Generate Existing</button>
+  <button mat-button class='button_try' (click)="get_ellusion_ids()" >Generate Existing</button>
 
 <div [hidden]="status_result">
   <p>False Negative = {{stats_result_false_negative}}</p>
