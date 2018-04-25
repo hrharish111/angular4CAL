@@ -19,13 +19,13 @@ margin-top: 25px;
 }
 
 .textbox_display{
-width: 38%;
-float: right;
-overflow: auto;
-background-color: white;
-margin: 0px;
-padding: 25px;
-max-height: 50%;
+  width: 38%;
+  float: right;
+  overflow-y: auto;
+  background-color: white;
+  margin: 0px;
+  padding: 25px;
+  max-height: 500px;
 }
 
 .example-container {

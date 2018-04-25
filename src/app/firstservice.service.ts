@@ -180,6 +180,14 @@ export class FirstserviceService {
     diversity_datas.max_distance,{}).map(response => response);
   }
 
+  public get_diversity_ids_service(): Observable<any>{
+    const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+    return this.http.get(environment.apiEndpoint + 'index/' + index_details.index_name + '/cal/' + index_details.cal_index
+    + '/diversity_samples').map(response => response.json());
+
+
+  }
+
 
 //  influential service starts here
 

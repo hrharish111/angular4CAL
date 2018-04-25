@@ -24,7 +24,7 @@ export class DiversitySampleComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
- influential_submit = function () {
+ diversity_submit = function () {
    console.log('something crossed over me');
    const diversity_datas = {
      'no_of_docs': this.no_of_docs.value,
@@ -38,6 +38,20 @@ export class DiversitySampleComponent implements OnInit {
    });
 
 
+ };
+
+ get_diversity_ids = function() {
+   this.firstservice.get_diversity_ids_service().subscribe( results => {
+    const final_results = [];
+    results.forEach(function (entry) {
+      final_results.push({'id': entry});
+
+    });
+    this.get_related_docs = final_results;
+    this.dataSource = new MatTableDataSource(this.get_related_docs);
+      this.displayedColumns = ['doc_viewed', 'res_or_no' , 'Doc_Id'];
+      this.dataSource.paginator = this.paginator;
+   });
  };
 
  selected_menu = function (sel_value) {
@@ -102,8 +116,8 @@ export class DiversitySampleComponent implements OnInit {
      this.success_result = results;
      if (results) {
        this.selection.clear();
-       this.influential_submit();
-       this.firstservice.openDialog('added your influential samples');
+       this.get_diversity_ids();
+       this.firstservice.openDialog('added your diversity samples');
 
      }
       }, err => {

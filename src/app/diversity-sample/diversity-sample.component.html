@@ -1,5 +1,5 @@
 <div class="container">
-  <form class="formwidth" (ngSubmit)="influential_submit()" #myForm="ngForm">
+  <form class="formwidth" (ngSubmit)="diversity_submit()" #myForm="ngForm">
 
       <!-- <mat-form-field>
             <mat-select placeholder="Index_name">
@@ -26,7 +26,9 @@
 
 
 
-   <div [hidden]="success_result && success_result == 'error_in_form'" class="alert alert-success alert-dismissable">
+
+
+   <!-- <div [hidden]="success_result && success_result == 'error_in_form'" class="alert alert-success alert-dismissable">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
     <strong>Success!</strong>
   </div>
@@ -34,7 +36,7 @@
   <div [hidden] ="success_result != 'error_in_form'" class="alert alert-danger alert-dismissable">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
     <strong>Failed To add your training</strong>
-  </div>
+  </div> -->
 
 
 
@@ -114,4 +116,6 @@
 
  <button mat-button class='predict_try' (click)="predict_score()">Predict Score</button>
 
-
+ <form>
+  <button mat-button class='button_try' (click)="get_diversity_ids()" >Generate Existing</button>
+</form>
