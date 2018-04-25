@@ -128,22 +128,28 @@ export class IllusionSetComponent implements OnInit {
      this.firstservice.generate_stats_for_ellusion_test(index_details, ellusion_details).subscribe(
        data => {
          if (data.status === 201) {
-          this.firstservice.get_stats_for_ellusion_test(index_details, ellusion_details).subscribe(ellusion_respose => {
-          this.status_result = false;
-          if (ellusion_respose) {
           this.firstservice.openDialog('completed generating stats');
-
-         this.stats_result_false_negative = ellusion_respose.false_negative;
-         this.stats_result_margin_of_error = ellusion_respose.margin_of_error;
-          }
-        });
          }
 
        }
      );
   };
 
+ get_stats_result = function(){
+  const index_details = JSON.parse(localStorage.getItem('local_store_value'));
+  const ellusion_details = JSON.parse(localStorage.getItem('ellusion_data'));
+  this.firstservice.get_stats_for_ellusion_test(index_details, ellusion_details).subscribe(ellusion_respose => {
+    this.status_result = false;
+    if (ellusion_respose) {
+    const response_text = 'false negative = ' + ellusion_respose.false_negative
+    + ' margin error = ' + ellusion_respose.margin_of_error;
+    this.firstservice.openDialog(response_text);
 
+  //  this.stats_result_false_negative = ellusion_respose.false_negative;
+  //  this.stats_result_margin_of_error = ellusion_respose.margin_of_error;
+    }
+  });
+}
 
   get_ellusion_ids() {
         const index_details = JSON.parse(localStorage.getItem('local_store_value'));
